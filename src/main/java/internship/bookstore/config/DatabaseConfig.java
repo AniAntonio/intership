@@ -13,8 +13,6 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.PropertySources;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.env.Environment;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
@@ -31,9 +29,7 @@ import internship.bookstore.utils.AppProperties.JdbcProperties;;
 
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories( basePackages = { AppProperties.PACKAGE_REPOSITORY })
 @PropertySources({ @PropertySource("classpath:" + AppProperties.DATABASE_PROPERTIES), @PropertySource("classpath:" + AppProperties.HIBERNATE_PROPERTIES) })
-@EnableSpringDataWebSupport
 public class DatabaseConfig {
 	@Autowired 
 	private Environment environment;
