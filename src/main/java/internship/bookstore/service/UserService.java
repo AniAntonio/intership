@@ -5,6 +5,14 @@ import internship.bookstore.entities.User;
 
 public interface UserService {
 
-  List<User> getAllUsers();
+	List<User> getAllUsers();
 
+	User getUserByUsernameAndPassword(String username, String password);
+
+	boolean addUser(User user);
+	
+	boolean editUser(User user);
+	
+	boolean deleteUser(User user);
+	
 }

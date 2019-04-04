@@ -19,4 +19,26 @@ public class UserServiceImpl implements UserService {
 	public List<User> getAllUsers() {
 	  return userRepository.getAllUsers();
 	}
+
+	@Override
+	public User getUserByUsernameAndPassword(String username, String password) {		
+		return userRepository.getUserByUsernameAndPassword(username, password);
+	}
+
+	@Override
+	public boolean addUser(User user) {
+		
+		return userRepository.addUser(user);
+	}
+
+	@Override
+	public boolean editUser(User user) {
+		return userRepository.editUser(user);
+	}
+
+	@Override
+	public boolean deleteUser(User user) {
+		return userRepository.deleteUser(user);
+	}
+	
 }

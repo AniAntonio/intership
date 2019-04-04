@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Edit Author</title>
+</head>
+<body>
+	<form action="#" th:action="@{/editAuthor/{id}(id=${author.id})}" th:object="${author}"
+		method="post">
+		<label for="firstname">Firstname</label> <input type="text"
+			th:field="*{firstname}" id="firstname" placeholder="firstName">
+		<span th:if="${#fields.hasErrors('firstname')}"
+			th:errors="*{firstname}"></span> <label for="lastname">LastName</label>
+		<input type="text" th:field="*{lastname}" id="lastname"
+			placeholder="lastname"> <span
+			th:if="${#fields.hasErrors('lastname')}" th:errors="*{lastname}"></span>
+		<label for="dateofbirth">dateofbirth</label> <input type="date"
+			th:field="*{dateofbirth}" id="dateofbirth" placeholder="dateofbirth">
+		<span th:if="${#fields.hasErrors('dateofbirth')}"
+			th:errors="*{dateofbirth}"></span> <input type="submit"
+			value="Edit Author">
+	</form>
+</body>
+</html>

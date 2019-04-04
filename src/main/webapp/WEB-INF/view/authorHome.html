@@ -1,0 +1,33 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>AuthorHome</title>
+</head>
+<body>
+   <div th:switch="${authors}">
+    <h2 th:case="null">No authors yet!</h2>
+        <div th:case="*">
+            <h2>Users</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Firstname</th>
+                        <th>Lastname</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <tr th:each="author : ${authors}">
+                    <td th:text="${author.firstname}"></td>
+                    <td th:text="${author.lastname}"></td>
+                    <td><a th:href="@{/goToEditAuthorPage/{id}(id=${author.id})}">Edit</a></td>
+                    <td><a th:href="@{/delete/{id}(id=${author.id})}">Delete</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>      
+    <p><a th:href="@{/goToAddAuthorPage/}" >Add Author</a></p>
+</div>
+</body>
+</html>
