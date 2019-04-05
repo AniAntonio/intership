@@ -17,7 +17,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
-@Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = { "username" }))
+@Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = { "id" }))
 public class User implements Serializable {
 	private static final long serialVersionUID = 1268317671009653176L;
 
@@ -25,7 +25,7 @@ public class User implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	protected Long id;
 
-	@Column(name = "username", length = 50, nullable = false, updatable = false)
+	@Column(name = "username", length = 50)
 	@Size(max = 50)
 	private String username;
 
@@ -116,5 +116,13 @@ public class User implements Serializable {
 	public void setValid(boolean valid) {
 		this.valid = valid;
 	}
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", username=" + username + ", password=" + password + ", firstname=" + firstname
+				+ ", lastname=" + lastname + ", email=" + email + ", valid=" + valid + "]";
+	}
+	
+	
 
 }

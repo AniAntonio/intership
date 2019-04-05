@@ -32,14 +32,41 @@ public class BookRepositoryImpl implements BookRepository {
 		}
 	}
 
-	public Book getBookByTitle(String title, Long iduser) {
+	public List<Book> getAllBooks() {
+		List<Book> books = new ArrayList<Book>();
+		try {
+
+			TypedQuery<Book> booksQuery = entityManager
+					.createQuery("Select book from Book book where  book.valid=:valid", Book.class);
+			booksQuery.setParameter("valid", Boolean.TRUE);
+			books = booksQuery.getResultList();
+			return books;
+		} catch (Exception e) {
+			return books;
+		}
+	}
+
+	public Book getBookByTitle(String title) {
 		Book book = new Book();
 		try {
 			TypedQuery<Book> bookQuery = entityManager.createQuery(
-					"Select book from Book book where book.title=:title and book.user.id=:iduser and book.valid=:valid",
+					"Select book from Book book where book.title=:title and book.valid=:valid",
 					Book.class);
 			bookQuery.setParameter("title", title);
-			bookQuery.setParameter("iduser", iduser);
+			bookQuery.setParameter("valid", Boolean.TRUE);
+			book = bookQuery.getSingleResult();
+			return book;
+		} catch (Exception e) {
+			return book;
+		}
+	}
+
+	public Book getBookByIsbn(Long isbn) {
+		Book book = new Book();
+		try {
+			TypedQuery<Book> bookQuery = entityManager
+					.createQuery("Select book from Book book where book.isbn=:isbn and  book.valid=:valid", Book.class);
+			bookQuery.setParameter("isbn", isbn);
 			bookQuery.setParameter("valid", Boolean.TRUE);
 			book = bookQuery.getSingleResult();
 			return book;

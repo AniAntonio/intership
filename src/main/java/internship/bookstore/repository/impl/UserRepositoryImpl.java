@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -50,8 +51,19 @@ public class UserRepositoryImpl implements UserRepository {
 
 	public boolean addUser(User user) {
 		try {
+			entityManager.getTransaction().begin();
 			user.setValid(Boolean.TRUE);
-			entityManager.persist(user);
+			Query query = entityManager
+					.createNativeQuery("INSERT INTO user (username,password,firstname,lastname,email,valid,idrole) VALUES (?,?,?,1)");
+			query.setParameter(1, user.getUsername());
+			query.setParameter(2, user.getPassword());
+			query.setParameter(3, user.getFirstname());
+			query.setParameter(4, user.getLastname());
+			query.setParameter(5, user.getEmail());
+			query.setParameter(6, user.isValid());
+			query.setParameter(7, 2);
+			query.executeUpdate();
+			entityManager.getTransaction().commit();
 			return true;
 		} catch (Exception e) {
 			return false;

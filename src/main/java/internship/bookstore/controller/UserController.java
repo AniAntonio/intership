@@ -1,17 +1,16 @@
 package internship.bookstore.controller;
 
-import java.util.List;
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import internship.bookstore.entities.Role;
 import internship.bookstore.entities.User;
-import internship.bookstore.service.BookService;
 import internship.bookstore.service.UserService;
 
 @Controller
@@ -19,16 +18,21 @@ public class UserController {
 
 	@Autowired
 	UserService userService;
-	@Autowired
-	BookService bookService;
 
-	/*
-	 * @RequestMapping(value = { "/", "/home" }, method = RequestMethod.GET) public
-	 * ModelAndView home() { User user =
-	 * userService.getUserByUsernameAndPassword("ani", "123"); List<User> users =
-	 * userService.getAllUsers(); System.out.println(user.getEmail()); ModelAndView
-	 * mv = new ModelAndView("login.html"); // this one works
-	 * mv.addObject("someData", user); return mv; }
-	 */
+	@GetMapping("/register")
+	public ModelAndView goToRegisterPage(User user) {
+		ModelAndView mv = new ModelAndView("register.html");
+		mv.addObject("user", user);
+		return mv;
+	}
+
+	@PostMapping("/signup")
+	public ModelAndView register(@Valid User user, BindingResult result) {
+	
+		userService.addUser(user);
+		ModelAndView mv = new ModelAndView("login.html");
+		mv.addObject("user", user);
+		return mv;
+	}
 
 }

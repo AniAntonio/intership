@@ -2,17 +2,21 @@ package internship.bookstore.service;
 
 import java.util.List;
 
-import internship.bookstore.entities.Book;
+import intership.bookstore.dto.BookDto;
 
 public interface BookService {
-	List<Book> getAllBooksByUserId(Long iduser);
+	List<BookDto> getAllBooksByUserId(Long iduser);
 
-	Book getBookByTitle(String title, Long iduser);
+	List<BookDto> getAllBooks();
 
-	boolean addBook(Book book);
+	BookDto getBookByTitle(String title);
 
-	boolean editBook(Book book);
+	BookDto getBookByIsbn(Long isbn);
 
-	boolean deleteBook(Book book);
+	boolean addBook(BookDto book);
+
+	boolean editBook(BookDto book);
+
+	boolean deleteBook(BookDto book);
 
 }

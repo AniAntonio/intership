@@ -24,6 +24,10 @@ public class Role implements Serializable {
 	@Size(max = 50)
 	private String rolename;
 
+	@Column(name="description",length=256)
+	@Size(max=256)
+	private String description;
+
 	public Long getId() {
 		return id;
 	}
@@ -39,5 +43,14 @@ public class Role implements Serializable {
 	public void setRolename(String rolename) {
 		this.rolename = rolename;
 	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	
 
 }

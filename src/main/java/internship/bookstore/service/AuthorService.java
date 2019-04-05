@@ -3,17 +3,18 @@ package internship.bookstore.service;
 import java.util.List;
 
 import internship.bookstore.entities.Author;
+import intership.bookstore.dto.AuthorDto;
 
 public interface AuthorService {
 
-	List<Author> getAllAuthors();
+	List<AuthorDto> getAllAuthors();
 
-	Author getAuthorById(Long id);
+	AuthorDto getAuthorById(Long id);
 
-	boolean addAuthor(Author author);
+	boolean addAuthor(AuthorDto authorDto);
 
-	boolean editAuthor(Author author);
+	boolean editAuthor(AuthorDto authorDto);
 
-	boolean deleteAuthor(Author author);
+	boolean deleteAuthor(AuthorDto authorDto);
 
 }
