@@ -7,7 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import internship.bookstore.entities.Author;
 import internship.bookstore.entities.Book;
+import internship.bookstore.entities.BookAuthor;
+import internship.bookstore.repository.AuthorRepository;
+import internship.bookstore.repository.BookAuthorRepository;
 import internship.bookstore.repository.BookRepository;
 import internship.bookstore.service.BookService;
 import intership.bookstore.converters.BookConverter;
@@ -19,6 +23,12 @@ public class BookServiceImpl implements BookService {
 
 	@Autowired
 	BookRepository bookRepository;
+
+	@Autowired
+	BookAuthorRepository bookAuthorRepository;
+
+	@Autowired
+	AuthorRepository authorRepository;
 
 	@Override
 	public List<BookDto> getAllBooksByUserId(Long iduser) {
@@ -37,8 +47,19 @@ public class BookServiceImpl implements BookService {
 
 	@Override
 	public boolean addBook(BookDto bookDto) {
+
 		if (bookRepository.getBookByTitle(bookDto.getTitle()).getIsbn() == null) {
-			return bookRepository.addBook(BookConverter.toBookEntity(bookDto));
+			bookRepository.addBook(BookConverter.toBookEntity(bookDto));
+			Book book = bookRepository.getBookByTitle(bookDto.getTitle());
+			for (Long id : bookDto.getIdAuthors()) {
+				BookAuthor bookAuthor = new BookAuthor();
+				Author author = new Author();
+				author = authorRepository.getAuthorById(id);
+				bookAuthor.setBook(book);
+				bookAuthor.setAuthor(author);
+				bookAuthorRepository.addBookAuthor(bookAuthor);
+			}
+			return true;
 		} else {
 			return false;
 		}
@@ -61,7 +82,10 @@ public class BookServiceImpl implements BookService {
 
 	@Override
 	public boolean deleteBook(BookDto bookDto) {
-
+		Book book = bookRepository.getBookByIsbn(bookDto.getIsbn());
+		for (BookAuthor bookAuthor : book.getBookAuthors()) {
+			bookAuthorRepository.deleteBookAuthors(bookAuthor);
+		}
 		return bookRepository.deleteBook(BookConverter.toBookEntity(bookDto));
 	}
 

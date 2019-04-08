@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import internship.bookstore.entities.Author;
+import internship.bookstore.entities.BookAuthor;
 import internship.bookstore.repository.AuthorRepository;
+import internship.bookstore.repository.BookAuthorRepository;
 import internship.bookstore.service.AuthorService;
 import intership.bookstore.converters.AuthorConverter;
 import intership.bookstore.dto.AuthorDto;
@@ -18,6 +20,9 @@ import intership.bookstore.dto.AuthorDto;
 public class AuthorServiceImpl implements AuthorService {
 	@Autowired
 	AuthorRepository authorRepository;
+
+	@Autowired
+	BookAuthorRepository bookAuthorRepository;
 
 	@Override
 	public List<AuthorDto> getAllAuthors() {
@@ -48,19 +53,24 @@ public class AuthorServiceImpl implements AuthorService {
 	public boolean editAuthor(AuthorDto authorDto) {
 		if (authorRepository.getAuthorByFirstNameAndLastName(authorDto.getFirstname(), authorDto.getLastname())
 				.getId() == null) {
-		return authorRepository.editAuthor(AuthorConverter.toAuthorEntity(authorDto));
-		}else if (authorRepository.getAuthorByFirstNameAndLastName(authorDto.getFirstname(), authorDto.getLastname())
+			return authorRepository.editAuthor(AuthorConverter.toAuthorEntity(authorDto));
+		} else if (authorRepository.getAuthorByFirstNameAndLastName(authorDto.getFirstname(), authorDto.getLastname())
 				.getId() == authorDto.getId()) {
 			return authorRepository.editAuthor(AuthorConverter.toAuthorEntity(authorDto));
-		}else {
-			//you are giving firstname and last name of an author that already exists
+		} else {
+			// you are giving firstname and last name of an author that already exists
 			return false;
 		}
 	}
 
 	@Override
 	public boolean deleteAuthor(AuthorDto authorDto) {
-		return authorRepository.deleteAuthor(AuthorConverter.toAuthorEntity(authorDto));
+		if (bookAuthorRepository.checkIfAuthorHasBooks(authorDto.getId())) {
+			return authorRepository.deleteAuthor(AuthorConverter.toAuthorEntity(authorDto));
+		} else {
+			System.out.println("Can not be deleted becouse this author has written books.");
+			return false;
+		}
 	}
 
 }

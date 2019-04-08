@@ -6,9 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import internship.bookstore.entities.Author;
@@ -36,7 +38,7 @@ public class AuthorController {
 		return mv;
 	}
 
-	@GetMapping("/delete/{id}")
+	@GetMapping("/author/delete/{id}")
 	public ModelAndView delete(@PathVariable("id") Long id) {
 
 		authorService.deleteAuthor(authorService.getAuthorById(id));
@@ -45,7 +47,7 @@ public class AuthorController {
 		return mv;
 	}
 
-	@PostMapping("/addAuthor")
+	@PostMapping("/author")
 	public ModelAndView addAuthor(@Valid AuthorDto authorDto, BindingResult result) {
 		if (result.hasErrors() || !authorService.addAuthor(authorDto)) {
 			ModelAndView mv = new ModelAndView("admin/addAuthor.html");
@@ -57,8 +59,8 @@ public class AuthorController {
 		return mv;
 	}
 
-	@PostMapping("/editAuthor/{id}")
-	public ModelAndView editAuthor(@PathVariable("id") long id, @Valid AuthorDto authorDto, BindingResult result,
+	@PutMapping("/author")
+	public ModelAndView editAuthor( @Valid AuthorDto authorDto, BindingResult result,
 			Model model) {
 		if (result.hasErrors()) {
 			ModelAndView mv = new ModelAndView("admin/editAuthor.html");

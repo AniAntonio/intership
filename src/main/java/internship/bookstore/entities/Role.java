@@ -24,8 +24,8 @@ public class Role implements Serializable {
 	@Size(max = 50)
 	private String rolename;
 
-	@Column(name="description",length=256)
-	@Size(max=256)
+	@Column(name = "description", length = 256)
+	@Size(max = 256)
 	private String description;
 
 	public Long getId() {
@@ -51,6 +51,5 @@ public class Role implements Serializable {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
 
 }
