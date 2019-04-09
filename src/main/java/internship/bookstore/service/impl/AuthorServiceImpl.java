@@ -7,22 +7,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import internship.bookstore.converters.AuthorConverter;
+import internship.bookstore.dto.AuthorDto;
 import internship.bookstore.entities.Author;
-import internship.bookstore.entities.BookAuthor;
+import internship.bookstore.entities.Book;
 import internship.bookstore.repository.AuthorRepository;
-import internship.bookstore.repository.BookAuthorRepository;
 import internship.bookstore.service.AuthorService;
-import intership.bookstore.converters.AuthorConverter;
-import intership.bookstore.dto.AuthorDto;
 
 @Service
 @Transactional
 public class AuthorServiceImpl implements AuthorService {
 	@Autowired
 	AuthorRepository authorRepository;
-
-	@Autowired
-	BookAuthorRepository bookAuthorRepository;
 
 	@Override
 	public List<AuthorDto> getAllAuthors() {
@@ -65,12 +61,12 @@ public class AuthorServiceImpl implements AuthorService {
 
 	@Override
 	public boolean deleteAuthor(AuthorDto authorDto) {
-		if (bookAuthorRepository.checkIfAuthorHasBooks(authorDto.getId())) {
+			if(authorRepository.getAuthorById(authorDto.getId()).getBooks().isEmpty()) {
 			return authorRepository.deleteAuthor(AuthorConverter.toAuthorEntity(authorDto));
-		} else {
-			System.out.println("Can not be deleted becouse this author has written books.");
-			return false;
-		}
+			}else {
+				System.out.println("Cant delete this author which has written book");
+				return false;
+			}
 	}
 
 }

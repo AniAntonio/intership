@@ -44,8 +44,11 @@ public class LoginController {
 	}
 
 	@GetMapping("/adminHome")
-	public ModelAndView adminHome() {
-		return new ModelAndView("admin/adminHome.html");
+	public ModelAndView adminHome(HttpServletRequest request) {
+		ModelAndView mv = new ModelAndView("admin/adminHome.html");
+		User user = (User) request.getSession().getAttribute("user");
+		mv.addObject("user", user);
+		return mv;
 	}
 
 }

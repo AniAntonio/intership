@@ -1,10 +1,9 @@
-package intership.bookstore.dto;
+package internship.bookstore.dto;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-
+import java.util.Set;
 import internship.bookstore.entities.Author;
-import internship.bookstore.entities.BookAuthor;
 import internship.bookstore.entities.User;
 
 public class BookDto {
@@ -22,6 +21,8 @@ public class BookDto {
 	private List<Long> idAuthors;
 
 	private User user;
+
+	private Set<Author> authors = new HashSet<>();
 
 	public Long getIsbn() {
 		return isbn;
@@ -77,6 +78,14 @@ public class BookDto {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public Set<Author> getAuthors() {
+		return authors;
+	}
+
+	public void setAuthors(Set<Author> authors) {
+		this.authors = authors;
 	}
 
 }

@@ -10,7 +10,6 @@ import javax.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
 
 import internship.bookstore.entities.Author;
-import internship.bookstore.entities.BookAuthor;
 import internship.bookstore.repository.AuthorRepository;
 
 @Repository

@@ -1,0 +1,21 @@
+	<nav class="navbar navbar-default navbar-fixed-top" th:fragment="headertemplate">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" href="#myPage">Logo</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a th:href="@{/adminHome}">Home</a></li>
+                <li><a th:href="@{/admin/bookHome}">Book Home</a></li>
+        <li><a th:href="@{/admin/authorHome}">Author Home</a></li>
+
+        <li><a  th:href="@{/logout}">Log Out</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>

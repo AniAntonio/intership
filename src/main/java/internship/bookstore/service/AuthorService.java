@@ -2,8 +2,7 @@ package internship.bookstore.service;
 
 import java.util.List;
 
-import internship.bookstore.entities.Author;
-import intership.bookstore.dto.AuthorDto;
+import internship.bookstore.dto.AuthorDto;
 
 public interface AuthorService {
 

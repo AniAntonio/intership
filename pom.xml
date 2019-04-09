@@ -29,8 +29,9 @@
 		<slf4j.version>1.7.25</slf4j.version>
 		<spring.version>5.1.5.RELEASE</spring.version>
 		<spring.data.version>2.1.5.RELEASE</spring.data.version>
-		<spring.security.version>5.1.4.RELEASE</spring.security.version>
+		<spring.security.version>5.1.5.RELEASE</spring.security.version>
 		<thymeleaf.version>3.0.11.RELEASE</thymeleaf.version>
+		<bootstrap.version>3.3.2</bootstrap.version>
 	</properties>
 
 	<dependencies>
@@ -56,6 +57,12 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-web</artifactId>
 			<version>${spring.version}</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.springframework.security</groupId>
+		    <artifactId>spring-security-core</artifactId>
+		    <version>${spring.version}</version>
 		</dependency>
 
 		<dependency>
@@ -156,16 +163,11 @@
 			<version>${javax.validation.version}</version>
 		</dependency>
 
-		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>bootstrap</artifactId>
-			<version>3.3.7-1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>jquery</artifactId>
-			<version>3.1.1</version>
-		</dependency>
+	 <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>bootstrap</artifactId>
+            <version>${bootstrap.version}</version>
+        </dependency>
 
 	</dependencies>
 

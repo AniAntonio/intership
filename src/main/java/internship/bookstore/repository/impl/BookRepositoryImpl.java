@@ -50,8 +50,7 @@ public class BookRepositoryImpl implements BookRepository {
 		Book book = new Book();
 		try {
 			TypedQuery<Book> bookQuery = entityManager.createQuery(
-					"Select book from Book book where book.title=:title and book.valid=:valid",
-					Book.class);
+					"Select book from Book book where book.title=:title and book.valid=:valid", Book.class);
 			bookQuery.setParameter("title", title);
 			bookQuery.setParameter("valid", Boolean.TRUE);
 			book = bookQuery.getSingleResult();

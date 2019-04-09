@@ -13,6 +13,7 @@
 					<tr>
 						<th>Firstname</th>
 						<th>Lastname</th>
+						<th>Date Of Birth</th>
 						<th>Edit</th>
 						<th>Delete</th>
 						<th><a th:href="@{/logout}">Log Out</a></th>
@@ -22,6 +23,7 @@
 					<tr th:each="author : ${authors}">
 						<td th:text="${author.firstname}"></td>
 						<td th:text="${author.lastname}"></td>
+						<td th:text="${author.dateofbirth}"></td>
 						<td><a th:href="@{/author/edit/{id}(id=${author.id})}">Edit</a></td>
 						<td><a th:href="@{/author/delete/{id}(id=${author.id})}">Delete</a></td>
 					</tr>

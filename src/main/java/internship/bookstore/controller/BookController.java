@@ -3,6 +3,7 @@ package internship.bookstore.controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -11,11 +12,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import internship.bookstore.dto.AuthorDto;
+import internship.bookstore.dto.BookDto;
 import internship.bookstore.entities.User;
 import internship.bookstore.service.AuthorService;
 import internship.bookstore.service.BookService;
-import intership.bookstore.dto.AuthorDto;
-import intership.bookstore.dto.BookDto;
 
 @Controller
 public class BookController {
@@ -32,6 +33,7 @@ public class BookController {
 	}
 
 	@GetMapping("/book/AddBook")
+	@Secured("ADMIN")
 	public ModelAndView goToAddBookPage(BookDto bookDto, AuthorDto author) {
 		ModelAndView mv = new ModelAndView("admin/addBook.html");
 		mv.addObject("book", bookDto);

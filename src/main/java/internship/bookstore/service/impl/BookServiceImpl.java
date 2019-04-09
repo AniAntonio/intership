@@ -1,21 +1,20 @@
 package internship.bookstore.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-
+import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import internship.bookstore.converters.BookConverter;
+import internship.bookstore.dto.BookDto;
 import internship.bookstore.entities.Author;
 import internship.bookstore.entities.Book;
-import internship.bookstore.entities.BookAuthor;
 import internship.bookstore.repository.AuthorRepository;
-import internship.bookstore.repository.BookAuthorRepository;
 import internship.bookstore.repository.BookRepository;
 import internship.bookstore.service.BookService;
-import intership.bookstore.converters.BookConverter;
-import intership.bookstore.dto.BookDto;
 
 @Service("bookService")
 @Transactional
@@ -23,9 +22,6 @@ public class BookServiceImpl implements BookService {
 
 	@Autowired
 	BookRepository bookRepository;
-
-	@Autowired
-	BookAuthorRepository bookAuthorRepository;
 
 	@Autowired
 	AuthorRepository authorRepository;
@@ -49,16 +45,14 @@ public class BookServiceImpl implements BookService {
 	public boolean addBook(BookDto bookDto) {
 
 		if (bookRepository.getBookByTitle(bookDto.getTitle()).getIsbn() == null) {
-			bookRepository.addBook(BookConverter.toBookEntity(bookDto));
-			Book book = bookRepository.getBookByTitle(bookDto.getTitle());
+			Set<Author> authors = new HashSet<>();
 			for (Long id : bookDto.getIdAuthors()) {
-				BookAuthor bookAuthor = new BookAuthor();
 				Author author = new Author();
 				author = authorRepository.getAuthorById(id);
-				bookAuthor.setBook(book);
-				bookAuthor.setAuthor(author);
-				bookAuthorRepository.addBookAuthor(bookAuthor);
+				authors.add(author);
 			}
+			bookDto.setAuthors(authors);
+			bookRepository.addBook(BookConverter.toBookEntity(bookDto));
 			return true;
 		} else {
 			return false;
@@ -82,10 +76,6 @@ public class BookServiceImpl implements BookService {
 
 	@Override
 	public boolean deleteBook(BookDto bookDto) {
-		Book book = bookRepository.getBookByIsbn(bookDto.getIsbn());
-		for (BookAuthor bookAuthor : book.getBookAuthors()) {
-			bookAuthorRepository.deleteBookAuthors(bookAuthor);
-		}
 		return bookRepository.deleteBook(BookConverter.toBookEntity(bookDto));
 	}
 

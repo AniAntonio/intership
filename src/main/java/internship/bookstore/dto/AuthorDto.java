@@ -1,4 +1,4 @@
-package intership.bookstore.dto;
+package internship.bookstore.dto;
 
 import internship.bookstore.entities.User;
 

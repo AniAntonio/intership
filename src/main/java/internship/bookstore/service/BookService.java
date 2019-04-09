@@ -2,7 +2,7 @@ package internship.bookstore.service;
 
 import java.util.List;
 
-import intership.bookstore.dto.BookDto;
+import internship.bookstore.dto.BookDto;
 
 public interface BookService {
 	List<BookDto> getAllBooksByUserId(Long iduser);

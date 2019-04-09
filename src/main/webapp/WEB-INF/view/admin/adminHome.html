@@ -1,18 +1,51 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
+<link href="webjars/bootstrap/3.3.2/css/bootstrap.min.css"
+	rel="stylesheet" media="screen" />
+<script src="http://code.jquery.com/jquery.js"></script>
+<script src="webjars/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css" th:href="@{/css/adminHome.css}">
+
 </head>
 <body>
-<div>
-<a th:href="@{/admin/bookHome}">Book Home</a>
-<a th:href="@{/admin/authorHome}">Author Home</a>
-<a th:href="@{/logout}">Log Out</a>
-</div>
-<div>
-</div>
-<div>
-</div>
+	<div th:replace="templates/header :: headertemplate"></div>
+	<div class="jumbotron text-center">
+		<h1>BOOKSTORE</h1>
+		<p>
+			Welcome to our Bookstore <span th:text="${user.firstname}"></span> <span
+				th:text="${user.lastname}"></span>
+		</p>
+	</div>
+	<!-- Container (About Section) -->
+	<div id="about" class="container-fluid">
+		<div class="row">
+			<div class="col-sm-8">
+				<h2>About Company Page</h2>
+				<br>
+				<h4>Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+					sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+					Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+					nisi ut aliquip ex ea commodo consequat.</h4>
+				<br>
+				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+					do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+					enim ad minim veniam, quis nostrud exercitation ullamco laboris
+					nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat
+					cupidatat non proident, sunt in culpa qui officia deserunt mollit
+					anim id est laborum consectetur adipiscing elit, sed do eiusmod
+					tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+					minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+					aliquip ex ea commodo consequat.</p>
+				<br>
+			</div>
+			<div class="col-sm-4">
+				<span class="glyphicon glyphicon-signal logo"></span>
+			</div>
+		</div>
+	</div>
+	<footer th:replace="templates/footer :: footertemplate"> </footer>
 </body>
 </html>

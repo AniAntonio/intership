@@ -1,6 +1,9 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+<meta charset="ISO-8859-1">
+<link href="webjars/bootstrap/3.3.2/css/bootstrap.min.css"
+	rel="stylesheet" media="screen" />
 <title>Book Home</title>
 </head>
 <body>
@@ -8,24 +11,25 @@
 		<h2 th:case="null">No books yet!</h2>
 		<div th:case="*">
 			<h2>Books</h2>
-			<table>
+			<table class="table">
 				<thead>
 					<tr>
-						<th>Title</th>
-						<th>Description</th>
-						<th>Publishing Date</th>
-						<th>Edit</th>
-						<th>Delete</th>
-						<th><a th:href="@{/logout}">Log Out</a></th>
+						<th scope="col">Title</th>
+						<th scope="col">Description</th>
+						<th scope="col">Publishing Date</th>
+						<th scope="col">Authors</th>
+						<th scope="col">Edit</th>
+						<th scope="col">Delete</th>
+						<th scope="col"><a th:href="@{/logout}">Log Out</a></th>
 						
 					</tr>
 				</thead>
 				<tbody>
 					<tr th:each="book : ${books}">
-						<td th:text="${book.title}"></td>
+						<td scope="row" th:text="${book.title}"></td>
 						<td th:text="${book.description}"></td>
 						<td th:text="${book.publishingdate}"></td>
-						<td th:each="author: ${book.bookauthors}" th:text="${author.firstname}" ></td>
+						<td ><p th:each="author: ${book.authors}" th:text="${author.firstname}" ></p></td>
 						<td><a
 							th:href="@{/book/edit/{isbn}(isbn=${book.isbn})}">Edit</a></td>
 						<td><a th:href="@{/book/delete/{isbn}(isbn=${book.isbn})}">Delete</a></td>
@@ -37,5 +41,7 @@
 			<a th:href="@{/book/AddBook}">Add Book</a>
 		</p>
 	</div>
+	<script src="http://code.jquery.com/jquery.js"></script>
+	<script src="webjars/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 </body>
 </html>

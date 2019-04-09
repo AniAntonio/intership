@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import internship.bookstore.dto.AuthorDto;
 import internship.bookstore.entities.Author;
 import internship.bookstore.entities.User;
 import internship.bookstore.service.AuthorService;
-import intership.bookstore.dto.AuthorDto;
 
 @Controller
 public class AuthorController {

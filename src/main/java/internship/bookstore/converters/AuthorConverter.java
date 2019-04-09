@@ -1,7 +1,7 @@
-package intership.bookstore.converters;
+package internship.bookstore.converters;
 
+import internship.bookstore.dto.AuthorDto;
 import internship.bookstore.entities.Author;
-import intership.bookstore.dto.AuthorDto;
 
 public class AuthorConverter {
 
