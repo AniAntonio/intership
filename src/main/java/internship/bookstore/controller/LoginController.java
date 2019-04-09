@@ -1,5 +1,7 @@
 package internship.bookstore.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,24 +24,28 @@ public class LoginController {
 	@Autowired
 	BookService bookService;
 
-	@RequestMapping(value = { "/" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/", "/login" }, method = RequestMethod.GET)
 	public ModelAndView home() {
-		ModelAndView mv = new ModelAndView("login.html"); // this one works
-		return mv;
+
+		return new ModelAndView("login.html");
 	}
 
-	@RequestMapping(value = { "/login" }, method = RequestMethod.POST)
-	public ModelAndView login(@ModelAttribute(name = "User") User user) {
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public ModelAndView login(@ModelAttribute(name = "User") User user, HttpServletRequest request) {
 		user = userService.getUserByUsernameAndPassword(user.getUsername(), user.getPassword());
 		if (user.getUsername() == null) {
 			System.out.println("user not found");
-			ModelAndView mv = new ModelAndView("login.html");
+			ModelAndView mv = new ModelAndView("redirect:/");
 			return mv;
 		} else {
-			ModelAndView mv = new ModelAndView("admin/bookHome.html"); // this one works
-			mv.addObject("books", bookService.getAllBooks());
-			return mv;
+			request.getSession().setAttribute("user", user);
+			return new ModelAndView("redirect:/adminHome");
 		}
+	}
+
+	@GetMapping("/adminHome")
+	public ModelAndView adminHome() {
+		return new ModelAndView("admin/adminHome.html");
 	}
 
 }

@@ -5,6 +5,7 @@ import java.util.List;
 
 import internship.bookstore.entities.Author;
 import internship.bookstore.entities.BookAuthor;
+import internship.bookstore.entities.User;
 
 public class BookDto {
 
@@ -19,6 +20,8 @@ public class BookDto {
 	private List<AuthorDto> bookauthors;
 
 	private List<Long> idAuthors;
+
+	private User user;
 
 	public Long getIsbn() {
 		return isbn;
@@ -66,6 +69,14 @@ public class BookDto {
 
 	public void setIdAuthors(List<Long> idAuthors) {
 		this.idAuthors = idAuthors;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 }

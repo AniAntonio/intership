@@ -1,5 +1,6 @@
 package internship.bookstore.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,11 +29,16 @@ public class UserController {
 
 	@PostMapping("/signup")
 	public ModelAndView register(@Valid User user, BindingResult result) {
-	
-		userService.addUser(user);
-		ModelAndView mv = new ModelAndView("login.html");
-		mv.addObject("user", user);
-		return mv;
+		if (result.hasErrors() || !userService.addUser(user)) {
+			return new ModelAndView("redirect:/register");
+		}
+		return new ModelAndView("redirect:/login");
+	}
+
+	@GetMapping("/logout")
+	public ModelAndView goToLoginPage(User user, HttpServletRequest request) {
+		request.getSession().invalidate();
+		return new ModelAndView("redirect:/login");
 	}
 
 }

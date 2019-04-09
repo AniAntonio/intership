@@ -16,6 +16,8 @@
 						<th>Publishing Date</th>
 						<th>Edit</th>
 						<th>Delete</th>
+						<th><a th:href="@{/logout}">Log Out</a></th>
+						
 					</tr>
 				</thead>
 				<tbody>
@@ -25,14 +27,14 @@
 						<td th:text="${book.publishingdate}"></td>
 						<td th:each="author: ${book.bookauthors}" th:text="${author.firstname}" ></td>
 						<td><a
-							th:href="@{/goToEditBookPage/{isbn}(isbn=${book.isbn})}">Edit</a></td>
-						<td><a th:href="@{/deletebook/{isbn}(isbn=${book.isbn})}">Delete</a></td>
+							th:href="@{/book/edit/{isbn}(isbn=${book.isbn})}">Edit</a></td>
+						<td><a th:href="@{/book/delete/{isbn}(isbn=${book.isbn})}">Delete</a></td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
 		<p>
-			<a th:href="@{/goToAddBookPage/}">Add Book</a>
+			<a th:href="@{/book/AddBook}">Add Book</a>
 		</p>
 	</div>
 </body>

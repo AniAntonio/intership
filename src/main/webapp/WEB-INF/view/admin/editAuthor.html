@@ -5,8 +5,8 @@
 <title>Edit Author</title>
 </head>
 <body>
-	<form action="#" th:action="@{/editAuthor/{id}(id=${author.id})}" th:object="${author}"
-		method="post">
+	<form action="#" th:action="@{/author/edit(id=${author.id})}"
+		th:object="${author}" method="post">
 		<label for="firstname">Firstname</label> <input type="text"
 			th:field="*{firstname}" id="firstname" placeholder="firstName">
 		<span th:if="${#fields.hasErrors('firstname')}"

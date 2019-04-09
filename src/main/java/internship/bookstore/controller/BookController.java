@@ -1,5 +1,6 @@
 package internship.bookstore.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,6 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
+
+import internship.bookstore.entities.User;
 import internship.bookstore.service.AuthorService;
 import internship.bookstore.service.BookService;
 import intership.bookstore.dto.AuthorDto;
@@ -21,7 +24,14 @@ public class BookController {
 	@Autowired
 	AuthorService authorService;
 
-	@GetMapping("/goToAddBookPage")
+	@GetMapping("/admin/bookHome")
+	public ModelAndView goToBookhome() {
+		ModelAndView mv = new ModelAndView("admin/bookHome.html");
+		mv.addObject("books", bookService.getAllBooks());
+		return mv;
+	}
+
+	@GetMapping("/book/AddBook")
 	public ModelAndView goToAddBookPage(BookDto bookDto, AuthorDto author) {
 		ModelAndView mv = new ModelAndView("admin/addBook.html");
 		mv.addObject("book", bookDto);
@@ -30,7 +40,7 @@ public class BookController {
 		return mv;
 	}
 
-	@GetMapping("/goToEditBookPage/{isbn}")
+	@GetMapping("/book/edit/{isbn}")
 	public ModelAndView goToEditBookPage(@PathVariable("isbn") Long isbn) {
 		BookDto bookDto = bookService.getBookByIsbn(isbn);
 		ModelAndView mv = new ModelAndView("admin/editBook.html");
@@ -38,37 +48,29 @@ public class BookController {
 		return mv;
 	}
 
-	@GetMapping("/deletebook/{isbn}")
+	@GetMapping("book/delete/{isbn}")
 	public ModelAndView delete(@PathVariable("isbn") Long isbn) {
 		bookService.deleteBook(bookService.getBookByIsbn(isbn));
-		return new ModelAndView("redirect: /admin/bookHome.html");
+		return new ModelAndView("redirect:/admin/bookHome");
 	}
 
-	@PostMapping("/addBook")
-	public ModelAndView addBook(@Valid BookDto bookDto, BindingResult result) {
+	@PostMapping("/book")
+	public ModelAndView addBook(@Valid BookDto bookDto, BindingResult result, HttpServletRequest request) {
+		User user = (User) request.getSession().getAttribute("user");
+		bookDto.setUser(user);
 		if (result.hasErrors() || !bookService.addBook(bookDto)) {
-
-			ModelAndView mv = new ModelAndView("admin/addBook.html");
-			mv.addObject("book", bookDto);
-			return mv;
+			return new ModelAndView("redirect:/book/AddBook");
 		}
-		ModelAndView mv = new ModelAndView("admin/bookHome.html");
-		mv.addObject("books", bookService.getAllBooks());
-		return mv;
+		return new ModelAndView("redirect:/admin/bookHome");
 	}
 
-	@PostMapping("/editBook/{isbn}")
-	public ModelAndView editBook(@PathVariable("isbn") long isbn, @Valid BookDto bookDto, BindingResult result,
-			Model model) {
+	@PostMapping("/book/edit")
+	public ModelAndView editBook(@Valid BookDto bookDto, BindingResult result, Model model) {
 		if (result.hasErrors()) {
-			ModelAndView mv = new ModelAndView("admin/editBook.html");
-			mv.addObject("book", bookDto);
-			return mv;
+			return new ModelAndView("redirect:/book/edit/{isbn}");
 		}
 		bookService.editBook(bookDto);
-		ModelAndView mv = new ModelAndView("admin/bookHome.html");
-		mv.addObject("books", bookService.getAllBooks());
-		return mv;
+		return new ModelAndView("redirect:/admin/bookHome");
 	}
 
 }

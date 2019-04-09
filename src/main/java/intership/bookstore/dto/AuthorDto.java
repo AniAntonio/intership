@@ -1,14 +1,18 @@
 package intership.bookstore.dto;
 
+import internship.bookstore.entities.User;
+
 public class AuthorDto {
-	
+
 	protected Long id;
-	
+
 	private String firstname;
-	
+
 	private String lastname;
-	
+
 	private String dateofbirth;
+
+	private User user;
 
 	public Long getId() {
 		return id;
@@ -41,7 +45,13 @@ public class AuthorDto {
 	public void setDateofbirth(String dateofbirth) {
 		this.dateofbirth = dateofbirth;
 	}
-	
-	
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
 
 }

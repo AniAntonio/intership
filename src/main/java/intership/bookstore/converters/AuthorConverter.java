@@ -11,6 +11,7 @@ public class AuthorConverter {
 		author.setFirstname(authorDto.getFirstname());
 		author.setId(authorDto.getId());
 		author.setLastname(authorDto.getLastname());
+		author.setUser(authorDto.getUser());
 		return author;
 	}
 
@@ -20,6 +21,7 @@ public class AuthorConverter {
 		authorDto.setFirstname(author.getFirstname());
 		authorDto.setId(author.getId());
 		authorDto.setLastname(author.getLastname());
+		authorDto.setUser(author.getUser());
 		return authorDto;
 	}
 }
