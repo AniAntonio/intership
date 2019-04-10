@@ -5,7 +5,7 @@ import java.util.List;
 import internship.bookstore.dto.BookDto;
 
 public interface BookService {
-	List<BookDto> getAllBooksByUserId(Long iduser);
+	List<BookDto> getAllBooks(String searchparam);
 
 	List<BookDto> getAllBooks();
 

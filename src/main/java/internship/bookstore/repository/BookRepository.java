@@ -6,8 +6,8 @@ import internship.bookstore.entities.Book;
 
 public interface BookRepository {
 
-	List<Book> getAllBooksByIdUser(Long iduser);
-	
+	List<Book> getAllBooks(String searchparam);
+
 	List<Book> getAllBooks();
 
 	Book getBookByTitle(String title);

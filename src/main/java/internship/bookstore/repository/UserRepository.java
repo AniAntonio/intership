@@ -7,6 +7,8 @@ public interface UserRepository {
 	List<User> getAllUsers();
 
 	User getUserByUsernameAndPassword(String username, String password);
+	
+	User getUserByUsername(String username);
 
 	boolean addUser(User user);
 

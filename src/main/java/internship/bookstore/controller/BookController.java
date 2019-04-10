@@ -14,6 +14,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import internship.bookstore.dto.AuthorDto;
 import internship.bookstore.dto.BookDto;
+import internship.bookstore.entities.Author;
+import internship.bookstore.entities.Book;
 import internship.bookstore.entities.User;
 import internship.bookstore.service.AuthorService;
 import internship.bookstore.service.BookService;
@@ -26,9 +28,19 @@ public class BookController {
 	AuthorService authorService;
 
 	@GetMapping("/admin/bookHome")
-	public ModelAndView goToBookhome() {
+	public ModelAndView goToBookhome(Book book) {
 		ModelAndView mv = new ModelAndView("admin/bookHome.html");
 		mv.addObject("books", bookService.getAllBooks());
+		mv.addObject("searchbook", book);
+		return mv;
+	}
+
+	@PostMapping("/admin/bookHome")
+	public ModelAndView searchInBookhome(@Valid Book book) {
+		ModelAndView mv = new ModelAndView("admin/bookHome.html");
+		System.out.println(book.getTitle() + "-------------------");
+		mv.addObject("books", bookService.getAllBooks(book.getTitle()));
+		mv.addObject("searchbook", book);
 		return mv;
 	}
 
@@ -43,10 +55,12 @@ public class BookController {
 	}
 
 	@GetMapping("/book/edit/{isbn}")
-	public ModelAndView goToEditBookPage(@PathVariable("isbn") Long isbn) {
+	public ModelAndView goToEditBookPage(@PathVariable("isbn") Long isbn, AuthorDto author) {
 		BookDto bookDto = bookService.getBookByIsbn(isbn);
 		ModelAndView mv = new ModelAndView("admin/editBook.html");
 		mv.addObject("book", bookDto);
+		mv.addObject("author", author);
+		mv.addObject("authors", authorService.getAllAuthors());
 		return mv;
 	}
 
@@ -67,7 +81,10 @@ public class BookController {
 	}
 
 	@PostMapping("/book/edit")
-	public ModelAndView editBook(@Valid BookDto bookDto, BindingResult result, Model model) {
+	public ModelAndView editBook(@Valid BookDto bookDto, BindingResult result, Model model,
+			HttpServletRequest request) {
+		User user = (User) request.getSession().getAttribute("user");
+		bookDto.setUser(user);
 		if (result.hasErrors()) {
 			return new ModelAndView("redirect:/book/edit/{isbn}");
 		}

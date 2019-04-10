@@ -23,6 +23,8 @@ public class BookDto {
 	private User user;
 
 	private Set<Author> authors = new HashSet<>();
+	
+	private String searchParam;
 
 	public Long getIsbn() {
 		return isbn;
@@ -86,6 +88,14 @@ public class BookDto {
 
 	public void setAuthors(Set<Author> authors) {
 		this.authors = authors;
+	}
+
+	public String getSearchParam() {
+		return searchParam;
+	}
+
+	public void setSearchParam(String searchParam) {
+		this.searchParam = searchParam;
 	}
 
 }

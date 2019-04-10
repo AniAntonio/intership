@@ -71,7 +71,10 @@ public class AuthorController {
 	}
 
 	@PostMapping("/author/edit")
-	public ModelAndView editAuthor(@Valid AuthorDto authorDto, BindingResult result, Model model) {
+	public ModelAndView editAuthor(@Valid AuthorDto authorDto, BindingResult result, Model model,
+			HttpServletRequest request) {
+		User user = (User) request.getSession().getAttribute("user");
+		authorDto.setUser(user);
 		if (result.hasErrors()) {
 			ModelAndView mv = new ModelAndView("redirect:/author/edit/{id}");
 			mv.addObject("author", authorDto);

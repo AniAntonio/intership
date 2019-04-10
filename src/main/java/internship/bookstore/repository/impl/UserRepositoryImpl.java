@@ -52,6 +52,21 @@ public class UserRepositoryImpl implements UserRepository {
 		}
 	}
 
+	public User getUserByUsername(String username) {
+		User user = new User();
+		try {
+			TypedQuery<User> userQuery = entityManager.createQuery(
+					"Select user from User user where user.username=:username and user.valid=:valid",
+					User.class);
+			userQuery.setParameter("username", username);
+			userQuery.setParameter("valid", Boolean.TRUE);
+			user = userQuery.getSingleResult();
+			return user;
+		} catch (Exception e) {
+			return user;
+		}
+	}
+
 	public boolean addUser(User user) {
 		try {
 			entityManager.persist(user);

@@ -27,9 +27,12 @@ public class BookServiceImpl implements BookService {
 	AuthorRepository authorRepository;
 
 	@Override
-	public List<BookDto> getAllBooksByUserId(Long iduser) {
+	public List<BookDto> getAllBooks(String searchparam) {
 		List<BookDto> books = new ArrayList<BookDto>();
-		for (Book book : bookRepository.getAllBooksByIdUser(iduser)) {
+		if(searchparam==null) {
+			getAllBooks();
+		}
+		for (Book book : bookRepository.getAllBooks(searchparam)) {
 			books.add(BookConverter.toBookDto(book));
 		}
 		return books;
@@ -68,6 +71,13 @@ public class BookServiceImpl implements BookService {
 			book.setPublishingdate(bookDto.getPublishingdate());
 			book.setTitle(bookDto.getTitle());
 			book.setIsbn(bookDto.getIsbn());
+			Set<Author> authors = new HashSet<>();
+			for (Long id : bookDto.getIdAuthors()) {
+				Author author = new Author();
+				author = authorRepository.getAuthorById(id);
+				authors.add(author);
+			}
+			book.setAuthors(authors);
 			return bookRepository.editBook(book);
 		} else {
 			return false;

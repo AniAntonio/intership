@@ -1,14 +1,29 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<title>AuthorHome</title>
+<title>Authors</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css" th:href="@{/css/adminHome.css}" />
 </head>
 <body>
+	<div th:replace="templates/header :: headertemplate"></div>
 	<div th:switch="${authors}">
+		<h2 class="text-center">All Authors</h2>
+		<p class="text-center">
+			<a th:href="@{/author/addAuthor}" class="btn btn-primary">Add
+				Author</a>
+		</p>
 		<h2 th:case="null">No authors yet!</h2>
 		<div th:case="*">
-			<h2>Users</h2>
-			<table>
+
+			<table class="table table-bordered">
 				<thead>
 					<tr>
 						<th>Firstname</th>
@@ -16,7 +31,6 @@
 						<th>Date Of Birth</th>
 						<th>Edit</th>
 						<th>Delete</th>
-						<th><a th:href="@{/logout}">Log Out</a></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -24,15 +38,16 @@
 						<td th:text="${author.firstname}"></td>
 						<td th:text="${author.lastname}"></td>
 						<td th:text="${author.dateofbirth}"></td>
-						<td><a th:href="@{/author/edit/{id}(id=${author.id})}">Edit</a></td>
-						<td><a th:href="@{/author/delete/{id}(id=${author.id})}">Delete</a></td>
+						<td><a th:href="@{/author/edit/{id}(id=${author.id})}"
+							class="btn btn-primary">Edit</a></td>
+						<td><a th:href="@{/author/delete/{id}(id=${author.id})}"
+							class="btn btn-primary">Delete</a></td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
-		<p>
-			<a th:href="@{/author/addAuthor}">Add Author</a>
-		</p>
+
 	</div>
+	<footer th:replace="templates/footer :: footertemplate"> </footer>
 </body>
 </html>

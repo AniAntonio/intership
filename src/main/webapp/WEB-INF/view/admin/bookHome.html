@@ -1,27 +1,44 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="ISO-8859-1">
-<link href="webjars/bootstrap/3.3.2/css/bootstrap.min.css"
-	rel="stylesheet" media="screen" />
-<title>Book Home</title>
+<title>Books</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css" th:href="@{/css/adminHome.css}" />
 </head>
 <body>
+	<div th:replace="templates/header :: headertemplate"></div>
 	<div th:switch="${books}">
+		<h2>
+			All Books In Our BookStore <a th:href="@{/book/AddBook}"
+				class="btn btn-success">Add Book</a>
+		</h2>
+
+
+		<form action="#" th:action="@{/admin/bookHome}"
+			th:object="${searchbook}" method="post">
+			<input type="text" th:field="*{title}" id="title"
+				placeholder="Search by title"> <span
+				th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></span> <input
+				type="submit" value="Search" class="btn btn-primary">
+		</form>
 		<h2 th:case="null">No books yet!</h2>
 		<div th:case="*">
-			<h2>Books</h2>
-			<table class="table">
+			<table class="table table-striped">
 				<thead>
 					<tr>
 						<th scope="col">Title</th>
 						<th scope="col">Description</th>
 						<th scope="col">Publishing Date</th>
 						<th scope="col">Authors</th>
-						<th scope="col">Edit</th>
-						<th scope="col">Delete</th>
-						<th scope="col"><a th:href="@{/logout}">Log Out</a></th>
-						
+						<th scope="col">Action</th>
+
 					</tr>
 				</thead>
 				<tbody>
@@ -29,19 +46,17 @@
 						<td scope="row" th:text="${book.title}"></td>
 						<td th:text="${book.description}"></td>
 						<td th:text="${book.publishingdate}"></td>
-						<td ><p th:each="author: ${book.authors}" th:text="${author.firstname}" ></p></td>
-						<td><a
-							th:href="@{/book/edit/{isbn}(isbn=${book.isbn})}">Edit</a></td>
-						<td><a th:href="@{/book/delete/{isbn}(isbn=${book.isbn})}">Delete</a></td>
+						<td><p th:each="author: ${book.authors}"
+								th:text="${author.firstname}"></p></td>
+						<td><a th:href="@{/book/edit/{isbn}(isbn=${book.isbn})}"
+							class="btn btn-default">Edit</a> <a
+							th:href="@{/book/delete/{isbn}(isbn=${book.isbn})}"
+							class="btn btn-danger">Delete</a></td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
-		<p>
-			<a th:href="@{/book/AddBook}">Add Book</a>
-		</p>
 	</div>
-	<script src="http://code.jquery.com/jquery.js"></script>
-	<script src="webjars/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+	<footer th:replace="templates/footer :: footertemplate"> </footer>
 </body>
 </html>

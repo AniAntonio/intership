@@ -17,14 +17,15 @@ public class BookRepositoryImpl implements BookRepository {
 	@PersistenceContext
 	EntityManager entityManager;
 
-	public List<Book> getAllBooksByIdUser(Long iduser) {
+	public List<Book> getAllBooks(String searchParam) {
 		List<Book> books = new ArrayList<Book>();
 		try {
 
 			TypedQuery<Book> booksQuery = entityManager.createQuery(
-					"Select book from Book book where book.user.id=:iduser and book.valid=:valid", Book.class);
-			booksQuery.setParameter("iduser", iduser);
+					"Select book from Book book where  book.valid=:valid AND LOWER(book.title) LIKE LOWER(CONCAT('%',:searchTerm, '%'))",
+					Book.class);
 			booksQuery.setParameter("valid", Boolean.TRUE);
+			booksQuery.setParameter("searchTerm", searchParam);
 			books = booksQuery.getResultList();
 			return books;
 		} catch (Exception e) {

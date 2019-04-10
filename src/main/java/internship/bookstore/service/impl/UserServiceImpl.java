@@ -27,8 +27,12 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public boolean addUser(User user) {
-		
-		return userRepository.addUser(user);
+		if(userRepository.getUserByUsername(user.getUsername()).getId() == null) {
+			return userRepository.addUser(user);
+		} else {
+			System.out.println("Username already exists");
+			return false;
+		}
 	}
 
 	@Override

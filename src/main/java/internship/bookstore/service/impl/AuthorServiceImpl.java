@@ -41,6 +41,7 @@ public class AuthorServiceImpl implements AuthorService {
 				.getId() == null) {
 			return authorRepository.addAuthor(AuthorConverter.toAuthorEntity(authorDto));
 		} else {
+			//this author already exists
 			return false;
 		}
 	}
