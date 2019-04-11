@@ -15,22 +15,21 @@
 <body>
 	<div th:replace="templates/header :: headertemplate"></div>
 	<div th:switch="${authors}">
-		<h2 class="text-center">All Authors</h2>
-		<p class="text-center">
-			<a th:href="@{/author/addAuthor}" class="btn btn-primary">Add
+		<h2>
+			All Authors <a th:href="@{/author/addAuthor}" class="btn btn-success">Add
 				Author</a>
-		</p>
+		</h2>
+
 		<h2 th:case="null">No authors yet!</h2>
 		<div th:case="*">
 
-			<table class="table table-bordered">
+			<table class="table table-striped">
 				<thead>
 					<tr>
 						<th>Firstname</th>
 						<th>Lastname</th>
 						<th>Date Of Birth</th>
-						<th>Edit</th>
-						<th>Delete</th>
+						<th>Actions</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -39,9 +38,33 @@
 						<td th:text="${author.lastname}"></td>
 						<td th:text="${author.dateofbirth}"></td>
 						<td><a th:href="@{/author/edit/{id}(id=${author.id})}"
-							class="btn btn-primary">Edit</a></td>
-						<td><a th:href="@{/author/delete/{id}(id=${author.id})}"
-							class="btn btn-primary">Delete</a></td>
+							class="btn btn-default">Edit</a> <a class="btn btn-danger"
+							data-toggle="modal" data-target="#modal-warning"
+							th:attr="data-target='#modal-warning'+${author.id}">Delete</a>
+							<div class="modal modal-warning fade in"
+								th:id="modal-warning+${author.id}">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal"
+												aria-label="Close">
+												<span aria-hidden="true">×</span>
+											</button>
+											<h5 class="modal-title">Delete User</h5>
+										</div>
+										<div class="modal-body">
+											<h3>Are you sure want to delete this user?</h3>
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-outline pull-left"
+												data-dismiss="modal">Close</button>
+											<a type="button" class="btn btn-outline"
+												th:href="@{/author/delete/{id}(id=${author.id})}"><i
+												class="fa fa-check"></i>&nbsp;Yes</a>
+										</div>
+									</div>
+								</div>
+							</div></td>
 					</tr>
 				</tbody>
 			</table>

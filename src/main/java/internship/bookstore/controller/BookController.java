@@ -1,5 +1,6 @@
 package internship.bookstore.controller;
 
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
-
 import internship.bookstore.dto.AuthorDto;
 import internship.bookstore.dto.BookDto;
-import internship.bookstore.entities.Author;
 import internship.bookstore.entities.Book;
 import internship.bookstore.entities.User;
 import internship.bookstore.service.AuthorService;
@@ -30,7 +29,10 @@ public class BookController {
 	@GetMapping("/admin/bookHome")
 	public ModelAndView goToBookhome(Book book) {
 		ModelAndView mv = new ModelAndView("admin/bookHome.html");
-		mv.addObject("books", bookService.getAllBooks());
+		List<BookDto> books = bookService.getAllBookByPageNumber(1);
+		int totalPages = bookService.getAllBookBySearchTitle("").size() / 5;
+		mv.addObject("totalpages", totalPages);
+		mv.addObject("books", books);
 		mv.addObject("searchbook", book);
 		return mv;
 	}
@@ -38,8 +40,21 @@ public class BookController {
 	@PostMapping("/admin/bookHome")
 	public ModelAndView searchInBookhome(@Valid Book book) {
 		ModelAndView mv = new ModelAndView("admin/bookHome.html");
-		System.out.println(book.getTitle() + "-------------------");
-		mv.addObject("books", bookService.getAllBooks(book.getTitle()));
+		List<BookDto> books = bookService.getAllBookBySearchTitle(book.getTitle());
+		int totalPages = books.size() / 5;
+		mv.addObject("books", books.subList(0, 5));
+		mv.addObject("totalpages", totalPages);
+		mv.addObject("searchbook", book);
+		return mv;
+	}
+
+	@PostMapping("/admin/bookHome/page")
+	public ModelAndView changePageNumberForBooks(@Valid Book book) {
+		ModelAndView mv = new ModelAndView("admin/bookHome.html");
+		List<BookDto> books = bookService.getAllBookByPageNumber(book.getIsbn().intValue());
+		mv.addObject("books", books);
+		int totalPages = bookService.getAllBookBySearchTitle("").size() / 5;
+		mv.addObject("totalpages", totalPages);
 		mv.addObject("searchbook", book);
 		return mv;
 	}
@@ -66,6 +81,7 @@ public class BookController {
 
 	@GetMapping("book/delete/{isbn}")
 	public ModelAndView delete(@PathVariable("isbn") Long isbn) {
+		System.out.println("----------------------" + isbn);
 		bookService.deleteBook(bookService.getBookByIsbn(isbn));
 		return new ModelAndView("redirect:/admin/bookHome");
 	}

@@ -5,9 +5,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import internship.bookstore.converters.BookConverter;
 import internship.bookstore.dto.BookDto;
 import internship.bookstore.entities.Author;
@@ -27,13 +28,12 @@ public class BookServiceImpl implements BookService {
 	AuthorRepository authorRepository;
 
 	@Override
-	public List<BookDto> getAllBooks(String searchparam) {
+	public List<BookDto> getAllBookBySearchTitle(String searchedTitle) {
 		List<BookDto> books = new ArrayList<BookDto>();
-		if(searchparam==null) {
-			getAllBooks();
-		}
-		for (Book book : bookRepository.getAllBooks(searchparam)) {
-			books.add(BookConverter.toBookDto(book));
+		{
+			for (Book book : bookRepository.getAllBookBySearchTitle(searchedTitle)) {
+				books.add(BookConverter.toBookDto(book));
+			}
 		}
 		return books;
 	}
@@ -95,13 +95,12 @@ public class BookServiceImpl implements BookService {
 	}
 
 	@Override
-	public List<BookDto> getAllBooks() {
+	public List<BookDto> getAllBookByPageNumber(int pageNumber) {
 
 		List<BookDto> books = new ArrayList<BookDto>();
-		for (Book book : bookRepository.getAllBooks()) {
+		for (Book book : bookRepository.getBookByPageNumber( pageNumber)) {
 			books.add(BookConverter.toBookDto(book));
 		}
 		return books;
 	}
-
 }

@@ -2,11 +2,14 @@ package internship.bookstore.repository.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import internship.bookstore.entities.Book;
@@ -17,15 +20,15 @@ public class BookRepositoryImpl implements BookRepository {
 	@PersistenceContext
 	EntityManager entityManager;
 
-	public List<Book> getAllBooks(String searchParam) {
+	public List<Book> getAllBookBySearchTitle(String searchedTitle) {
 		List<Book> books = new ArrayList<Book>();
 		try {
 
 			TypedQuery<Book> booksQuery = entityManager.createQuery(
-					"Select book from Book book where  book.valid=:valid AND LOWER(book.title) LIKE LOWER(CONCAT('%',:searchTerm, '%'))",
+					"Select book from Book book where  book.valid=:valid AND LOWER(book.title) LIKE LOWER(CONCAT('%',:searchedTitle, '%'))",
 					Book.class);
 			booksQuery.setParameter("valid", Boolean.TRUE);
-			booksQuery.setParameter("searchTerm", searchParam);
+			booksQuery.setParameter("searchedTitle", searchedTitle);
 			books = booksQuery.getResultList();
 			return books;
 		} catch (Exception e) {
@@ -33,13 +36,15 @@ public class BookRepositoryImpl implements BookRepository {
 		}
 	}
 
-	public List<Book> getAllBooks() {
+	public List<Book> getBookByPageNumber(int pageNumber) {
 		List<Book> books = new ArrayList<Book>();
 		try {
 
 			TypedQuery<Book> booksQuery = entityManager
 					.createQuery("Select book from Book book where  book.valid=:valid", Book.class);
 			booksQuery.setParameter("valid", Boolean.TRUE);
+			booksQuery.setFirstResult((pageNumber-1)*5+1);
+			booksQuery.setMaxResults(5);
 			books = booksQuery.getResultList();
 			return books;
 		} catch (Exception e) {
@@ -103,5 +108,4 @@ public class BookRepositoryImpl implements BookRepository {
 			return false;
 		}
 	}
-
 }

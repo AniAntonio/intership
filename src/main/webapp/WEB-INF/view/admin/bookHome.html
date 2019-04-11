@@ -23,10 +23,9 @@
 
 		<form action="#" th:action="@{/admin/bookHome}"
 			th:object="${searchbook}" method="post">
-			<input type="text" th:field="*{title}" id="title"
-				placeholder="Search by title"> <span
-				th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></span> <input
-				type="submit" value="Search" class="btn btn-primary">
+			<input th:field="*{title}" type="text" placeholder="Search by title"
+				name="search">
+			<button type="submit" class="btn btn-primary">Search</button>
 		</form>
 		<h2 th:case="null">No books yet!</h2>
 		<div th:case="*">
@@ -47,14 +46,57 @@
 						<td th:text="${book.description}"></td>
 						<td th:text="${book.publishingdate}"></td>
 						<td><p th:each="author: ${book.authors}"
-								th:text="${author.firstname}"></p></td>
+								th:text="${author.firstname +' '+author.lastname}"></p></td>
 						<td><a th:href="@{/book/edit/{isbn}(isbn=${book.isbn})}"
-							class="btn btn-default">Edit</a> <a
-							th:href="@{/book/delete/{isbn}(isbn=${book.isbn})}"
-							class="btn btn-danger">Delete</a></td>
+							class="btn btn-default">Edit</a></td>
+						<td><a class="btn btn-danger" data-toggle="modal"
+							data-target="#modal-warning"
+							th:attr="data-target='#modal-warning'+${book.isbn}">Delete</a>
+
+							<div class="modal modal-warning fade in"
+								th:id="modal-warning+${book.isbn}">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal"
+												aria-label="Close">
+												<span aria-hidden="true">×</span>
+											</button>
+											<h5 class="modal-title">Delete User</h5>
+										</div>
+										<div class="modal-body">
+											<h3>Are you sure want to delete this user?</h3>
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-outline pull-left"
+												data-dismiss="modal">Close</button>
+											<a type="button" class="btn btn-outline"
+												th:href="@{/book/delete/{isbn}(isbn=${book.isbn})}"><i
+												class="fa fa-check"></i>&nbsp;Yes</a>
+										</div>
+									</div>
+								</div>
+							</div></td>
 					</tr>
 				</tbody>
 			</table>
+			<div class="row">
+
+				<div class="form-group col-md-1">
+					<form action="#" th:action="@{/admin/bookHome/page}"
+						th:object="${searchbook}" method="post">
+						<select th:field="*{isbn}" class="form-control pagination"
+							id="pageSizeSelect">
+
+							<option th:each="i: ${#numbers.sequence(1, totalpages)}" th:text="${i}"
+								th:value="${i}"></option>
+						</select>
+					
+						<button type="submit" class="btn btn-primary">Select Page</button>
+					</form>
+
+				</div>
+			</div>
 		</div>
 	</div>
 	<footer th:replace="templates/footer :: footertemplate"> </footer>
