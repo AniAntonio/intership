@@ -56,7 +56,7 @@ public class BookController {
 		int totalPages = bookService.getAllBookBySearchTitle("").size() / 5;
 		mv.addObject("totalpages", totalPages);
 		mv.addObject("searchbook", book);
-		return mv;
+		return mv; 
 	}
 
 	@GetMapping("/book/AddBook")
