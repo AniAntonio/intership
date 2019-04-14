@@ -1,8 +1,10 @@
 package internship.bookstore.controller;
 
 import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
@@ -12,9 +14,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
+
 import internship.bookstore.dto.AuthorDto;
 import internship.bookstore.dto.BookDto;
-import internship.bookstore.entities.Book;
+import internship.bookstore.dto.BookRequestDto;
 import internship.bookstore.entities.User;
 import internship.bookstore.service.AuthorService;
 import internship.bookstore.service.BookService;
@@ -27,36 +30,27 @@ public class BookController {
 	AuthorService authorService;
 
 	@GetMapping("/admin/bookHome")
-	public ModelAndView goToBookhome(Book book) {
+	public ModelAndView goToBookhome(BookRequestDto request) {
 		ModelAndView mv = new ModelAndView("admin/bookHome.html");
-		List<BookDto> books = bookService.getAllBookByPageNumber(1);
-		int totalPages = bookService.getAllBookBySearchTitle("").size() / 5;
+		List<BookDto> books = bookService.getAllBookBySearchTitle(request);
+		int totalPages = (bookService.countBooks(request) + 4) / 5;
+		mv.addObject("authors", authorService.getAllAuthors());
 		mv.addObject("totalpages", totalPages);
 		mv.addObject("books", books);
-		mv.addObject("searchbook", book);
+		mv.addObject("utilDto", request);
 		return mv;
 	}
 
 	@PostMapping("/admin/bookHome")
-	public ModelAndView searchInBookhome(@Valid Book book) {
+	public ModelAndView searchInBookhome(@Valid BookRequestDto request) {
 		ModelAndView mv = new ModelAndView("admin/bookHome.html");
-		List<BookDto> books = bookService.getAllBookBySearchTitle(book.getTitle());
-		int totalPages = books.size() / 5;
-		mv.addObject("books", books.subList(0, 5));
-		mv.addObject("totalpages", totalPages);
-		mv.addObject("searchbook", book);
-		return mv;
-	}
-
-	@PostMapping("/admin/bookHome/page")
-	public ModelAndView changePageNumberForBooks(@Valid Book book) {
-		ModelAndView mv = new ModelAndView("admin/bookHome.html");
-		List<BookDto> books = bookService.getAllBookByPageNumber(book.getIsbn().intValue());
+		List<BookDto> books = bookService.getAllBookBySearchTitle(request);
+		int totalPages = (bookService.countBooks(request) + 4) / 5;
+		mv.addObject("authors", authorService.getAllAuthors());
 		mv.addObject("books", books);
-		int totalPages = bookService.getAllBookBySearchTitle("").size() / 5;
 		mv.addObject("totalpages", totalPages);
-		mv.addObject("searchbook", book);
-		return mv; 
+		mv.addObject("utilDto", request);
+		return mv;
 	}
 
 	@GetMapping("/book/AddBook")
@@ -66,22 +60,23 @@ public class BookController {
 		mv.addObject("book", bookDto);
 		mv.addObject("author", author);
 		mv.addObject("authors", authorService.getAllAuthors());
+		mv.addObject("addStatus", Boolean.TRUE);
 		return mv;
 	}
 
 	@GetMapping("/book/edit/{isbn}")
 	public ModelAndView goToEditBookPage(@PathVariable("isbn") Long isbn, AuthorDto author) {
 		BookDto bookDto = bookService.getBookByIsbn(isbn);
-		ModelAndView mv = new ModelAndView("admin/editBook.html");
+		ModelAndView mv = new ModelAndView("admin/addBook.html");
 		mv.addObject("book", bookDto);
 		mv.addObject("author", author);
 		mv.addObject("authors", authorService.getAllAuthors());
+		mv.addObject("addStatus", Boolean.FALSE);
 		return mv;
 	}
 
 	@GetMapping("book/delete/{isbn}")
 	public ModelAndView delete(@PathVariable("isbn") Long isbn) {
-		System.out.println("----------------------" + isbn);
 		bookService.deleteBook(bookService.getBookByIsbn(isbn));
 		return new ModelAndView("redirect:/admin/bookHome");
 	}

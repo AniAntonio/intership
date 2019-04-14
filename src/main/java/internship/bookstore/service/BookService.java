@@ -2,16 +2,13 @@ package internship.bookstore.service;
 
 import java.util.List;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-
 import internship.bookstore.dto.BookDto;
-import internship.bookstore.entities.Book;
+import internship.bookstore.dto.BookRequestDto;
 
 public interface BookService {
-	List<BookDto> getAllBookBySearchTitle(String searchparam);
+	List<BookDto> getAllBookBySearchTitle(BookRequestDto request);
 
-	List<BookDto> getAllBookByPageNumber(int pageNumber);
+	int countBooks(BookRequestDto request);
 
 	BookDto getBookByTitle(String searchedTitle);
 

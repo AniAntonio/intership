@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<title>Add Author</title>
+<title th:text="${addStatus?'Add Author': 'Edit Author'}">Add Author</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet"
@@ -17,8 +17,8 @@
 	<div th:replace="templates/header :: headertemplate"></div>
 	<div class="form">
 		<!-- <span th:if="${author.firstname == null && author.lastname != null}">Error</span> -->
-		<form class="login-form" action="#" th:action="@{/author}"
-			th:object="${author}" method="post">
+		<form class="login-form" action="#"  th:action="${addStatus==true} ? @{/author } :@{/author/edit(id=${author.id})}"
+			th:object="${author}" th:method="post">
 			<label for="firstname">Firstname</label> <input type="text"
 				th:field="*{firstname}" id="firstname" placeholder="firstName">
 			<span th:if="${#fields.hasErrors('firstname')}"
@@ -29,8 +29,8 @@
 			<label for="dateofbirth">Dateofbirth</label> <input type="date"
 				th:field="*{dateofbirth}" id="dateofbirth" placeholder="dateofbirth">
 			<span th:if="${#fields.hasErrors('dateofbirth')}"
-				th:errors="*{dateofbirth}"></span> <input type="submit"
-				value="Add Author">
+				th:errors="*{dateofbirth}"></span> <button  type="submit"
+				th:text="${addStatus==true?'Add Author': 'Update Author'}"></button>
 		</form>
 	</div>
 	<footer th:replace="templates/footer :: footertemplate"> </footer>

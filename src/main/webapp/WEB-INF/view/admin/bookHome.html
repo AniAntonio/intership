@@ -16,15 +16,24 @@
 	<div th:replace="templates/header :: headertemplate"></div>
 	<div th:switch="${books}">
 		<h2>
-			All Books In Our BookStore <a th:href="@{/book/AddBook}"
-				class="btn btn-success">Add Book</a>
+			All Books In Our BookStore <a th:if="${session.user.role.id==1}"
+				th:href="@{/book/AddBook}" class="btn btn-success">Add Book</a>
 		</h2>
 
 
-		<form action="#" th:action="@{/admin/bookHome}"
-			th:object="${searchbook}" method="post">
-			<input th:field="*{title}" type="text" placeholder="Search by title"
-				name="search">
+		<form action="#" th:action="@{/admin/bookHome}" th:object="${utilDto}"
+			method="post">
+			<input th:field="*{searchedTitle}" type="text"
+				placeholder="Search by title" name="search"> <select
+				th:field="*{idAuthor}" id="dropOperator">
+				<option value="0">Select Author</option>
+				<option th:each="author : ${authors}" th:value="${author.id}"
+					th:text="${author.firstname +' '+author.lastname}"></option>
+			</select> <select th:field="*{pageNumber}" id="pageSizeSelect">
+				<option value="0">Select Page</option>
+				<option th:each="i: ${#numbers.sequence(1, totalpages)}"
+					th:text="${i}" th:value="${i}"></option>
+			</select>
 			<button type="submit" class="btn btn-primary">Search</button>
 		</form>
 		<h2 th:case="null">No books yet!</h2>
@@ -36,7 +45,7 @@
 						<th scope="col">Description</th>
 						<th scope="col">Publishing Date</th>
 						<th scope="col">Authors</th>
-						<th scope="col">Action</th>
+						<th scope="col" th:if="${session.user.role.id==1}">Action</th>
 
 					</tr>
 				</thead>
@@ -47,9 +56,11 @@
 						<td th:text="${book.publishingdate}"></td>
 						<td><p th:each="author: ${book.authors}"
 								th:text="${author.firstname +' '+author.lastname}"></p></td>
-						<td><a th:href="@{/book/edit/{isbn}(isbn=${book.isbn})}"
+						<td th:if="${session.user.role.id==1}"><a
+							th:href="@{/book/edit/{isbn}(isbn=${book.isbn})}"
 							class="btn btn-default">Edit</a></td>
-						<td><a class="btn btn-danger" data-toggle="modal"
+						<td th:if="${session.user.role.id==1}"><a
+							class="btn btn-danger" data-toggle="modal"
 							data-target="#modal-warning"
 							th:attr="data-target='#modal-warning'+${book.isbn}">Delete</a>
 
@@ -80,23 +91,6 @@
 					</tr>
 				</tbody>
 			</table>
-			<div class="row">
-
-				<div class="form-group col-md-1">
-					<form action="#" th:action="@{/admin/bookHome/page}"
-						th:object="${searchbook}" method="post">
-						<select th:field="*{isbn}" class="form-control pagination"
-							id="pageSizeSelect">
-
-							<option th:each="i: ${#numbers.sequence(1, totalpages)}" th:text="${i}"
-								th:value="${i}"></option>
-						</select>
-					
-						<button type="submit" class="btn btn-primary">Select Page</button>
-					</form>
-
-				</div>
-			</div>
 		</div>
 	</div>
 	<footer th:replace="templates/footer :: footertemplate"> </footer>

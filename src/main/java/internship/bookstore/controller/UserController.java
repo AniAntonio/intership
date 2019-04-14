@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -28,10 +29,12 @@ public class UserController {
 	}
 
 	@PostMapping("/signup")
-	public ModelAndView register(@Valid User user, BindingResult result) {
-		if (result.hasErrors() || !userService.addUser(user)) {
+	public ModelAndView register(@ModelAttribute @Valid User user, BindingResult result) {
+		if (result.hasErrors()) {
+			System.out.println("validation error");
 			return new ModelAndView("redirect:/register");
 		}
+		userService.addUser(user);
 		return new ModelAndView("redirect:/login");
 	}
 

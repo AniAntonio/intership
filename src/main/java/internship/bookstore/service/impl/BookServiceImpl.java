@@ -4,13 +4,14 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import internship.bookstore.converters.BookConverter;
 import internship.bookstore.dto.BookDto;
+import internship.bookstore.dto.BookRequestDto;
 import internship.bookstore.entities.Author;
 import internship.bookstore.entities.Book;
 import internship.bookstore.repository.AuthorRepository;
@@ -28,10 +29,18 @@ public class BookServiceImpl implements BookService {
 	AuthorRepository authorRepository;
 
 	@Override
-	public List<BookDto> getAllBookBySearchTitle(String searchedTitle) {
+	public List<BookDto> getAllBookBySearchTitle(BookRequestDto request) {
+
 		List<BookDto> books = new ArrayList<BookDto>();
-		{
-			for (Book book : bookRepository.getAllBookBySearchTitle(searchedTitle)) {
+		if (request.getIdAuthor() != 0) {
+			Author author = authorRepository.getAuthorById((long) request.getIdAuthor());
+			for (Book book : bookRepository.getAllBookBySearchTitle(request.getSearchedTitle(), author,
+					request.getPageNumber())) {
+				books.add(BookConverter.toBookDto(book));
+			}
+		} else {
+			for (Book book : bookRepository.getAllBookBySearchTitle(request.getSearchedTitle(), null,
+					request.getPageNumber())) {
 				books.add(BookConverter.toBookDto(book));
 			}
 		}
@@ -95,12 +104,12 @@ public class BookServiceImpl implements BookService {
 	}
 
 	@Override
-	public List<BookDto> getAllBookByPageNumber(int pageNumber) {
-
-		List<BookDto> books = new ArrayList<BookDto>();
-		for (Book book : bookRepository.getBookByPageNumber( pageNumber)) {
-			books.add(BookConverter.toBookDto(book));
+	public int countBooks(BookRequestDto request) {
+		if (request.getIdAuthor() != 0) {
+			Author author = authorRepository.getAuthorById((long) request.getIdAuthor());
+			return bookRepository.countBooks(request.getSearchedTitle(), author);
+		} else {
+			return bookRepository.countBooks(request.getSearchedTitle(), null);
 		}
-		return books;
 	}
 }

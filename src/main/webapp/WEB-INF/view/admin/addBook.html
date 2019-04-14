@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<title>Add Book</title>
+<title th:text="${addStatus?'Add Book': 'Edit Book'}">Add Book</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet"
@@ -16,8 +16,9 @@
 <body  style="background-color:	#D3D3D3;">
 	<div th:replace="templates/header :: headertemplate"></div>
 	<div class="form">
-		<form class="login-form" action="#" th:action="@{/book}"
+		<form class="login-form" action="#"  th:action="${addStatus==true} ? @{/book } :@{/book/edit(isbn=${book.isbn})}"
 			th:object="${book}" method="post">
+			
 			<label for="title">Title</label> <input type="text"
 				th:field="*{title}" id="title" placeholder="title"> <span
 				th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></span> <label
@@ -33,7 +34,7 @@
 				<option value="0">select operator</option>
 				<option th:each="author : ${authors}" th:value="${author.id}"
 					th:text="${author.firstname +' '+author.lastname}"></option>
-			</select> <input type="submit" value="Add Book">
+			</select> <button class="btn btn-success" type="submit"  th:text="${addStatus==true?'Add Book': 'Update Book'}"></button>
 		</form>
 	</div>
 	<footer th:replace="templates/footer :: footertemplate"> </footer>

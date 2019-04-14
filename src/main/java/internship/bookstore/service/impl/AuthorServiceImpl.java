@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import internship.bookstore.converters.AuthorConverter;
 import internship.bookstore.dto.AuthorDto;
 import internship.bookstore.entities.Author;
-import internship.bookstore.entities.Book;
 import internship.bookstore.repository.AuthorRepository;
 import internship.bookstore.service.AuthorService;
 

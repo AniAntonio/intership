@@ -36,14 +36,16 @@ public class AuthorController {
 	public ModelAndView goToAddAuthorPage(Author author) {
 		ModelAndView mv = new ModelAndView("admin/addAuthor.html");
 		mv.addObject("author", author);
+		mv.addObject("addStatus",Boolean.TRUE);
 		return mv;
 	}
 
 	@GetMapping("/author/edit/{id}")
 	public ModelAndView goToEditAuthorPage(@PathVariable("id") Long id) {
 		AuthorDto authorDto = authorService.getAuthorById(id);
-		ModelAndView mv = new ModelAndView("admin/editAuthor.html");
+		ModelAndView mv = new ModelAndView("admin/addAuthor.html");
 		mv.addObject("author", authorDto);
+		mv.addObject("addStatus",Boolean.FALSE);
 		return mv;
 	}
 

@@ -16,7 +16,7 @@
 	<div th:replace="templates/header :: headertemplate"></div>
 	<div th:switch="${authors}">
 		<h2>
-			All Authors <a th:href="@{/author/addAuthor}" class="btn btn-success">Add
+			All Authors <a th:if="${session.user.role.id==1}" th:href="@{/author/addAuthor}" class="btn btn-success">Add
 				Author</a>
 		</h2>
 
@@ -29,7 +29,7 @@
 						<th>Firstname</th>
 						<th>Lastname</th>
 						<th>Date Of Birth</th>
-						<th>Actions</th>
+						<th th:if="${session.user.role.id==1}">Actions</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -37,7 +37,7 @@
 						<td th:text="${author.firstname}"></td>
 						<td th:text="${author.lastname}"></td>
 						<td th:text="${author.dateofbirth}"></td>
-						<td><a th:href="@{/author/edit/{id}(id=${author.id})}"
+						<td th:if="${session.user.role.id==1}"><a th:href="@{/author/edit/{id}(id=${author.id})}"
 							class="btn btn-default">Edit</a> <a class="btn btn-danger"
 							data-toggle="modal" data-target="#modal-warning"
 							th:attr="data-target='#modal-warning'+${author.id}">Delete</a>

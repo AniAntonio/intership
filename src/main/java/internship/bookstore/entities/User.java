@@ -26,19 +26,19 @@ public class User implements Serializable {
 	protected Long id;
 
 	@Column(name = "username", length = 50)
-	@Size(max = 50)
+	@Size(min=3,max = 50)
 	private String username;
 
 	@Column(name = "password", length = 100)
-	@Size(max = 100)
+	@Size(min=3,max = 50)
 	private String password;
 
 	@Column(name = "firstname", length = 50)
-	@Size(max = 50)
+	@Size(min=3,max = 50)
 	private String firstname;
 
 	@Column(name = "lastname", length = 50)
-	@Size(max = 50)
+	@Size(min=3,max = 50)
 	private String lastname;
 
 	@Column(name = "email", length = 50)
