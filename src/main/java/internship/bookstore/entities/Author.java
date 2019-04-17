@@ -1,7 +1,6 @@
 package internship.bookstore.entities;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,13 +14,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.persistence.UniqueConstraint;
-import javax.validation.constraints.Size;
 
 @Entity
-@Table(name = "author", uniqueConstraints = @UniqueConstraint(columnNames = { "id" }))
+@Table(name = "author")
 public class Author implements Serializable {
 	private static final long serialVersionUID = 1268317671009653176L;
 
@@ -29,16 +24,13 @@ public class Author implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	protected Long id;
 
-	@Column(name = "firstname", length = 50)
-	@Size(max = 50)
+	@Column(name = "firstname")
 	private String firstname;
 
-	@Column(name = "lastname", length = 50)
-	@Size(max = 50)
+	@Column(name = "lastname")
 	private String lastname;
 
-	@Column(name = "dateofbirth", length = 200)
-	@Size(max = 200)
+	@Column(name = "dateofbirth")
 	private String dateofbirth;
 
 	@Column(name = "valid")

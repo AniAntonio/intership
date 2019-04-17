@@ -2,18 +2,13 @@ package internship.bookstore.repository.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
-import internship.bookstore.entities.Role;
+import org.springframework.stereotype.Repository;
+
 import internship.bookstore.entities.User;
 import internship.bookstore.repository.UserRepository;
 

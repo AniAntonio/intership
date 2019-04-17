@@ -9,9 +9,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import internship.bookstore.entities.Role;
 import internship.bookstore.entities.User;
 import internship.bookstore.service.UserService;
 
@@ -20,6 +22,34 @@ public class UserController {
 
 	@Autowired
 	UserService userService;
+	
+	@RequestMapping(value = { "/", "/login" }, method = RequestMethod.GET)
+	public ModelAndView home() {
+
+		return new ModelAndView("login.html");
+	}
+
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public ModelAndView login(@ModelAttribute(name = "User") User user, HttpServletRequest request) {
+		user = userService.getUserByUsernameAndPassword(user.getUsername(), user.getPassword());
+		if (user.getUsername() == null) {		
+			ModelAndView mv = new ModelAndView("login.html");
+			mv.addObject("message", "Wrong username or password!");
+			mv.addObject("alertClass", "alert-danger");
+			return mv;
+		} else {
+			request.getSession().setAttribute("user", user);
+			return new ModelAndView("redirect:/adminHome");
+		}
+	}
+
+	@GetMapping("/adminHome")
+	public ModelAndView adminHome(HttpServletRequest request) {
+		ModelAndView mv = new ModelAndView("admin/adminHome.html");
+		User user = (User) request.getSession().getAttribute("user");
+		mv.addObject("user", user);
+		return mv;
+	}
 
 	@GetMapping("/register")
 	public ModelAndView goToRegisterPage(User user) {
@@ -28,13 +58,17 @@ public class UserController {
 		return mv;
 	}
 
-	@PostMapping("/signup")
-	public ModelAndView register(@ModelAttribute @Valid User user, BindingResult result) {
+	@PostMapping("/register")
+	public ModelAndView register(@ModelAttribute @Valid  User user, BindingResult result) {
 		if (result.hasErrors()) {
-			System.out.println("validation error");
-			return new ModelAndView("redirect:/register");
+			return new ModelAndView("register.html");
 		}
-		userService.addUser(user);
+		if(!userService.addUser(user)) {
+			ModelAndView mv = new ModelAndView("register.html");
+			mv.addObject("message", "This username already exists!");
+			mv.addObject("alertClass", "alert-danger");
+			return mv;
+		}
 		return new ModelAndView("redirect:/login");
 	}
 

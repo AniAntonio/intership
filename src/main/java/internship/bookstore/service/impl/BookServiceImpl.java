@@ -1,9 +1,7 @@
 package internship.bookstore.service.impl;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +16,7 @@ import internship.bookstore.repository.AuthorRepository;
 import internship.bookstore.repository.BookRepository;
 import internship.bookstore.service.BookService;
 
-@Service("bookService")
+@Service
 @Transactional
 public class BookServiceImpl implements BookService {
 
@@ -29,17 +27,17 @@ public class BookServiceImpl implements BookService {
 	AuthorRepository authorRepository;
 
 	@Override
-	public List<BookDto> getAllBookBySearchTitle(BookRequestDto request) {
+	public List<BookDto> getAllBookBySearch(BookRequestDto request) {
 
 		List<BookDto> books = new ArrayList<BookDto>();
 		if (request.getIdAuthor() != 0) {
 			Author author = authorRepository.getAuthorById((long) request.getIdAuthor());
-			for (Book book : bookRepository.getAllBookBySearchTitle(request.getSearchedTitle(), author,
+			for (Book book : bookRepository.getAllBookBySearch(request.getSearchedTitle(), author,
 					request.getPageNumber())) {
 				books.add(BookConverter.toBookDto(book));
 			}
 		} else {
-			for (Book book : bookRepository.getAllBookBySearchTitle(request.getSearchedTitle(), null,
+			for (Book book : bookRepository.getAllBookBySearch(request.getSearchedTitle(), null,
 					request.getPageNumber())) {
 				books.add(BookConverter.toBookDto(book));
 			}
@@ -57,15 +55,14 @@ public class BookServiceImpl implements BookService {
 	public boolean addBook(BookDto bookDto) {
 
 		if (bookRepository.getBookByTitle(bookDto.getTitle()).getIsbn() == null) {
-			Set<Author> authors = new HashSet<>();
+			List<Author> authors = new ArrayList<Author>();
 			for (Long id : bookDto.getIdAuthors()) {
 				Author author = new Author();
 				author = authorRepository.getAuthorById(id);
 				authors.add(author);
 			}
 			bookDto.setAuthors(authors);
-			bookRepository.addBook(BookConverter.toBookEntity(bookDto));
-			return true;
+			return bookRepository.addBook(BookConverter.toBookEntity(bookDto));
 		} else {
 			return false;
 		}
@@ -80,7 +77,7 @@ public class BookServiceImpl implements BookService {
 			book.setPublishingdate(bookDto.getPublishingdate());
 			book.setTitle(bookDto.getTitle());
 			book.setIsbn(bookDto.getIsbn());
-			Set<Author> authors = new HashSet<>();
+			List<Author> authors = new ArrayList<Author>();
 			for (Long id : bookDto.getIdAuthors()) {
 				Author author = new Author();
 				author = authorRepository.getAuthorById(id);

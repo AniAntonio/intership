@@ -18,11 +18,11 @@ public class BookRepositoryImpl implements BookRepository {
 	@PersistenceContext
 	EntityManager entityManager;
 
-	public List<Book> getAllBookBySearchTitle(String searchedTitle, Author author, int pageNumber) {
+	public List<Book> getAllBookBySearch(String searchedTitle, Author author, int pageNumber) {
 		List<Book> books = new ArrayList<Book>();
 		try {
 			StringBuilder booksQuery = new StringBuilder(
-					"Select book from Book book join fetch book.authors authors left join fetch authors.user  where book.valid=:valid");
+					"Select book from Book book join fetch book.authors authors where book.valid=:valid");
 			if (searchedTitle != null) {
 				booksQuery.append("  AND (LOWER(book.title) LIKE LOWER(CONCAT('%',:searchedTitle, '%')))");
 			}
@@ -54,7 +54,7 @@ public class BookRepositoryImpl implements BookRepository {
 	public int countBooks(String searchedTitle, Author author) {
 		try {
 			StringBuilder booksQuery = new StringBuilder(
-					"Select  book from Book book join fetch book.authors authors left join fetch authors.user  where book.valid=:valid");
+					"Select  book from Book book join fetch book.authors authors where book.valid=:valid");
 			if (searchedTitle != null) {
 				booksQuery.append("  AND (LOWER(book.title) LIKE LOWER(CONCAT('%',:searchedTitle, '%')))");
 			}

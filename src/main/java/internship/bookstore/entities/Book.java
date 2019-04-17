@@ -1,8 +1,8 @@
 package internship.bookstore.entities;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,11 +15,9 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
-import javax.validation.constraints.Size;
 
 @Entity
-@Table(name = "book", uniqueConstraints = @UniqueConstraint(columnNames = { "isbn" }))
+@Table(name = "book")
 public class Book implements Serializable {
 	private static final long serialVersionUID = 1268317671009653177L;
 
@@ -27,29 +25,34 @@ public class Book implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	protected Long isbn;
 
-	@Column(name = "title", length = 100)
-	@Size(max = 100)
+	@Column(name = "title")
 	private String title;
 
-	@Column(name = "description", length = 1000)
-	@Size(max = 1000)
+	@Column(name = "description")
 	private String description;
 
-	@Column(name = "publishingdate", length = 200)
-	@Size(max = 200)
+	@Column(name = "publishingdate")
 	private String publishingdate;
 
 	@Column(name = "valid")
 	private boolean valid;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "iduser")
 	private User user;
 
-	@ManyToMany(cascade = { CascadeType.ALL },fetch=FetchType.EAGER)
+	@ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
 	@JoinTable(name = "book_author", joinColumns = { @JoinColumn(name = "isbnbook") }, inverseJoinColumns = {
 			@JoinColumn(name = "idauthor") })
-	private Set<Author> authors = new HashSet<>();
+	private List<Author> authors;
+	
+	
+
+	@Override
+	public String toString() {
+		return "Book [isbn=" + isbn + ", title=" + title + ", description=" + description + ", publishingdate="
+				+ publishingdate + ", valid=" + valid + ", user=" + user + ", authors=" + authors + "]";
+	}
 
 	public Long getIsbn() {
 		return isbn;
@@ -99,11 +102,11 @@ public class Book implements Serializable {
 		this.user = user;
 	}
 
-	public Set<Author> getAuthors() {
+	public List<Author> getAuthors() {
 		return authors;
 	}
 
-	public void setAuthors(Set<Author> authors) {
+	public void setAuthors(List<Author> authors) {
 		this.authors = authors;
 	}
 

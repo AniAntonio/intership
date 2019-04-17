@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<title th:text="${addStatus?'Add Author': 'Edit Author'}">Add Author</title>
+<title th:text="${addStatus?'Add Author': 'Edit Author'}">Add
+	Author</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet"
@@ -16,20 +17,27 @@
 <body>
 	<div th:replace="templates/header :: headertemplate"></div>
 	<div class="form">
-		<!-- <span th:if="${author.firstname == null && author.lastname != null}">Error</span> -->
-		<form class="login-form" action="#"  th:action="${addStatus==true} ? @{/author } :@{/author/edit(id=${author.id})}"
+		<div th:if="${message}" th:text="${message}"
+			th:class="${'alert ' + alertClass}"></div>
+		<form class="login-form" action="#"
+			th:action="${addStatus==true} ? @{/author } :@{/author/edit(id=${author.id})}"
 			th:object="${author}" th:method="post">
 			<label for="firstname">Firstname</label> <input type="text"
-				th:field="*{firstname}" id="firstname" placeholder="firstName">
-			<span th:if="${#fields.hasErrors('firstname')}"
-				th:errors="*{firstname}"></span> <label for="lastname">LastName</label>
-			<input type="text" th:field="*{lastname}" id="lastname"
-				placeholder="lastname"> <span
+				th:field="*{firstname}" id="firstname"
+				placeholder="firstName from 3 to 50 letters" th:required="required"
+				th:minlength="3"  th:maxlength="50"> <span
+				th:if="${#fields.hasErrors('firstname')}" th:errors="*{firstname}"></span>
+			<label for="lastname">LastName</label> <input type="text"
+				th:field="*{lastname}" id="lastname"
+				placeholder="lastname from 3 to 50 letters" th:required="required"
+				th:maxlength="50" th:minlength="3"> <span
 				th:if="${#fields.hasErrors('lastname')}" th:errors="*{lastname}"></span>
 			<label for="dateofbirth">Dateofbirth</label> <input type="date"
-				th:field="*{dateofbirth}" id="dateofbirth" placeholder="dateofbirth">
-			<span th:if="${#fields.hasErrors('dateofbirth')}"
-				th:errors="*{dateofbirth}"></span> <button  type="submit"
+				th:field="*{dateofbirth}" id="dateofbirth" placeholder="dateofbirth"
+				th:required="required"> <span
+				th:if="${#fields.hasErrors('dateofbirth')}"
+				th:errors="*{dateofbirth}"></span>
+			<button type="submit"
 				th:text="${addStatus==true?'Add Author': 'Update Author'}"></button>
 		</form>
 	</div>

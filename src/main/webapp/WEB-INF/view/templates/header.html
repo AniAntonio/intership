@@ -11,8 +11,8 @@
 			<ul class="nav navbar-nav">
 			<li><a href="" th:text="${session.user.firstname + ''+session.user.lastname}"></a> </li>
 				<li ><a th:href="@{/adminHome}">Home</a></li>
-				<li><a th:href="@{/admin/bookHome}">Book </a></li>
-				<li><a th:href="@{/admin/authorHome}">Author </a></li>
+				<li><a th:href="@{/admin/bookList}">Book </a></li>
+				<li><a th:href="@{/admin/authorList}">Author </a></li>
 			</ul>
 			
 			<ul class="nav navbar-nav navbar-right">

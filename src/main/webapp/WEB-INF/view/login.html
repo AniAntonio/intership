@@ -12,10 +12,11 @@
 	<script src="webjars/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 	<div class="login-page">
 		<div class="form">
-
+		
 			<form class="login-form" th:action="@{/login}" th:object="${User}"
 				method="post">
-
+					<div th:if="${message}" th:text="${message}"
+				th:class="${'alert ' + alertClass}"></div>
 				<label for="username">Username</label>
 				 <input type="text" id="username" name="username" />
 				 <label for="password">password</label>

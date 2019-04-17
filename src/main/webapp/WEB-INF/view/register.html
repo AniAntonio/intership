@@ -10,39 +10,30 @@
 <body>
 	<div class="login-page">
 		<div class="form">
-			<form class="login-form" th:action="@{/signup}" th:object="${user}"
+			<div th:if="${message}" th:text="${message}"
+				th:class="${'alert ' + alertClass}"></div>
+			<form class="login-form" th:action="@{/register}" th:object="${user}"
 				method="post">
-				<!-- <label for="username">Username</label> <input type="text"
-					th:field="*{username}" id="username" placeholder="Username must Between 3 and 50 characters"
-					th:required="required" maxlength="32"> <span
-					th:if="${#fields.hasErrors('username')}" th:errors="*{username}"> </span>  -->
-					<label>Username</label>
-				<div
-					th:classappend="${#fields.hasErrors('username')} ? 'input-icon right' : ''">
-					<i th:if="${#fields.hasErrors('username')}"
-						class="fa fa-exclamation tooltips"
-						data-original-title="please enter a valid first name"
-						data-container="body"></i> <input type="text" class="form-control"
-						 th:field="*{username}"
-						placeholder="Username must Between 3 and 50 characters" /> <span
-						th:if="${#fields.hasErrors('username')}" class="help-block"
-						th:errors="*{username}"></span>
-				</div>
-
-				<label for="password">Password</label> <input type="password"
-					th:field="*{password}" id="password" placeholder="password"
-					th:required="required"> <span
-					th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
-				<br></br> <label for="firstname">Firstname</label> <input
-					type="text" th:field="*{firstname}" id="firstname"
-					placeholder="firstName" th:required="required"> <span
-					th:if="${#fields.hasErrors('firstname')}" th:errors="*{firstname}"></span>
-				<br></br> <label for="lastname">LastName</label> <input type="text"
-					th:field="*{lastname}" id="lastname" placeholder="lastname"
-					th:required="required"> <span
-					th:if="${#fields.hasErrors('lastname')}" th:errors="*{lastname}"></span><label
-					for="email">Email</label> <input type="text" th:field="*{email}"
-					id="email" placeholder="email" th:required="required"> <span
+				<label for="username">Username</label> <input type="text"
+					th:field="*{username}" id="username"
+					placeholder="Username must be 3-50 letters" th:required="required">
+				<span th:if="${#fields.hasErrors('username')}"
+					th:errors="*{username}"> </span> <label>Username</label> <label
+					for="password">Password</label> <input type="password"
+					th:field="*{password}" id="password"
+					placeholder="password must be 3-50 letters" th:required="required">
+				<span th:if="${#fields.hasErrors('password')}"
+					th:errors="*{password}"></span> <label for="firstname">Firstname</label>
+				<input type="text" th:field="*{firstname}" id="firstname"
+					placeholder="firstName must be 3-50 letters" th:required="required">
+				<span th:if="${#fields.hasErrors('firstname')}"
+					th:errors="*{firstname}"></span> <label for="lastname">LastName</label>
+				<input type="text" th:field="*{lastname}" id="lastname"
+					placeholder="lastname must be 3-50 letters" th:required="required">
+				<span th:if="${#fields.hasErrors('lastname')}"
+					th:errors="*{lastname}"></span><label for="email">Email</label> <input
+					type="text" th:field="*{email}" id="email"
+					placeholder="example@gmail.com" th:required="required"> <span
 					th:if="${#fields.hasErrors('email')}" th:errors="*{email}">
 				</span>
 				<button>Sign Up</button>

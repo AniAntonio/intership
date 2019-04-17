@@ -40,7 +40,6 @@ public class AuthorServiceImpl implements AuthorService {
 				.getId() == null) {
 			return authorRepository.addAuthor(AuthorConverter.toAuthorEntity(authorDto));
 		} else {
-			//this author already exists
 			return false;
 		}
 	}
@@ -54,19 +53,17 @@ public class AuthorServiceImpl implements AuthorService {
 				.getId() == authorDto.getId()) {
 			return authorRepository.editAuthor(AuthorConverter.toAuthorEntity(authorDto));
 		} else {
-			// you are giving firstname and last name of an author that already exists
 			return false;
 		}
 	}
 
 	@Override
 	public boolean deleteAuthor(AuthorDto authorDto) {
-			if(authorRepository.getAuthorById(authorDto.getId()).getBooks().isEmpty()) {
+		if (authorRepository.getAuthorById(authorDto.getId()).getBooks().isEmpty()) {
 			return authorRepository.deleteAuthor(AuthorConverter.toAuthorEntity(authorDto));
-			}else {
-				System.out.println("Cant delete this author which has written book");
-				return false;
-			}
+		} else {
+			return false;
+		}
 	}
 
 }

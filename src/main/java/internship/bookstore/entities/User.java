@@ -11,13 +11,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
-@Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = { "username" }))
+@Table(name = "users")
 public class User implements Serializable {
 	private static final long serialVersionUID = 1268317671009653176L;
 
@@ -26,23 +25,23 @@ public class User implements Serializable {
 	protected Long id;
 
 	@Column(name = "username", length = 50)
-	@Size(min=3,max = 50)
+	@Size(min=3,max = 50,message="Username must be from 3 to 50 letters!")
 	private String username;
 
 	@Column(name = "password", length = 100)
-	@Size(min=3,max = 50)
+	@Size(min=3,max = 50,message="Password must be from 3 to 50 letters!")
 	private String password;
 
 	@Column(name = "firstname", length = 50)
-	@Size(min=3,max = 50)
+	@Size(min=3,max = 50,message="Firstname must be from 3 to 50 letters!")
 	private String firstname;
 
 	@Column(name = "lastname", length = 50)
-	@Size(min=3,max = 50)
+	@Size(min=3,max = 50 , message="Lastname must be from 3 to 50 letters!")
 	private String lastname;
 
 	@Column(name = "email", length = 50)
-	@Email
+	@Email( message="Enter a valid email!")
 	@NotNull
 	private String email;
 

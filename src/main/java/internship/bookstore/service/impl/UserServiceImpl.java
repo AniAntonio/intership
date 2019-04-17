@@ -8,7 +8,7 @@ import internship.bookstore.entities.User;
 import internship.bookstore.repository.UserRepository;
 import internship.bookstore.service.UserService;
 
-@Service("userService")
+@Service
 @Transactional
 public class UserServiceImpl implements UserService {
 
@@ -30,7 +30,6 @@ public class UserServiceImpl implements UserService {
 		if(userRepository.getUserByUsername(user.getUsername()).getId() == null) {
 			return userRepository.addUser(user);
 		} else {
-			System.out.println("Username already exists");
 			return false;
 		}
 	}

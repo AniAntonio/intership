@@ -21,20 +21,33 @@
 		</h2>
 
 
-		<form action="#" th:action="@{/admin/bookHome}" th:object="${utilDto}"
-			method="post">
-			<input th:field="*{searchedTitle}" type="text"
-				placeholder="Search by title" name="search"> <select
-				th:field="*{idAuthor}" id="dropOperator">
-				<option value="0">Select Author</option>
-				<option th:each="author : ${authors}" th:value="${author.id}"
-					th:text="${author.firstname +' '+author.lastname}"></option>
-			</select> <select th:field="*{pageNumber}" id="pageSizeSelect">
-				<option value="0">Select Page</option>
-				<option th:each="i: ${#numbers.sequence(1, totalpages)}"
-					th:text="${i}" th:value="${i}"></option>
-			</select>
-			<button type="submit" class="btn btn-primary">Search</button>
+		<form action="#" th:action="@{/admin/bookList}" th:object="${utilDto}"
+			class="form-inline" method="get">
+			<div class="form-group">
+				<label for="title">Title</label> <input id="title"
+					th:field="*{searchedTitle}" type="text"
+					placeholder="Search by title" name="search" class="form-control">
+			</div>
+			<div class="form-group">
+				<label for="authorSelect">Author</label> <select
+					class="form-control" th:field="*{idAuthor}" id="authorSelect">
+					<option value="0">Select Author</option>
+					<option th:each="author : ${authors}" th:value="${author.id}"
+						th:text="${author.firstname +' '+author.lastname}"></option>
+				</select>
+			</div>
+			<div class="form-group">
+				<label for="pageSelect">Page</label> <select class="form-control"
+					th:field="*{pageNumber}" id="pageSelect">
+					<option value="0">Select Page</option>
+					<option th:each="i: ${#numbers.sequence(1, totalpages)}"
+						th:text="${i}" th:value="${i}"></option>
+				</select>
+			</div>
+			<div class="form-group">
+				<button type="submit" class="btn btn-primary">Search</button>
+			</div>
+
 		</form>
 		<h2 th:case="null">No books yet!</h2>
 		<div th:case="*">
@@ -54,7 +67,7 @@
 						<td scope="row" th:text="${book.title}"></td>
 						<td th:text="${book.description}"></td>
 						<td th:text="${book.publishingdate}"></td>
-						<td><p th:each="author: ${book.authors}"
+						<td><p th:each="author: ${book.bookauthors}"
 								th:text="${author.firstname +' '+author.lastname}"></p></td>
 						<td th:if="${session.user.role.id==1}"><a
 							th:href="@{/book/edit/{isbn}(isbn=${book.isbn})}"
@@ -63,7 +76,6 @@
 							class="btn btn-danger" data-toggle="modal"
 							data-target="#modal-warning"
 							th:attr="data-target='#modal-warning'+${book.isbn}">Delete</a>
-
 							<div class="modal modal-warning fade in"
 								th:id="modal-warning+${book.isbn}">
 								<div class="modal-dialog">
@@ -73,10 +85,10 @@
 												aria-label="Close">
 												<span aria-hidden="true">×</span>
 											</button>
-											<h5 class="modal-title">Delete User</h5>
+											<h5 class="modal-title">Delete Book</h5>
 										</div>
 										<div class="modal-body">
-											<h3>Are you sure want to delete this user?</h3>
+											<h3>Are you sure want to delete this book?</h3>
 										</div>
 										<div class="modal-footer">
 											<button type="button" class="btn btn-outline pull-left"

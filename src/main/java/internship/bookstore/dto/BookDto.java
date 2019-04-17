@@ -1,8 +1,7 @@
 package internship.bookstore.dto;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+
 import internship.bookstore.entities.Author;
 import internship.bookstore.entities.User;
 
@@ -18,12 +17,18 @@ public class BookDto {
 
 	private List<AuthorDto> bookauthors;
 
+	@Override
+	public String toString() {
+		return "BookDto [isbn=" + isbn + ", title=" + title + ", description=" + description + ", publishingdate="
+				+ publishingdate + ", bookauthors=" + bookauthors + ", idAuthors=" + idAuthors + ", user=" + user + "]";
+	}
+
 	private List<Long> idAuthors;
 
 	private User user;
 
-	private Set<Author> authors = new HashSet<>();
-	
+	private List<Author> authors;
+
 	private String searchParam;
 
 	public Long getIsbn() {
@@ -82,11 +87,11 @@ public class BookDto {
 		this.user = user;
 	}
 
-	public Set<Author> getAuthors() {
+	public List<Author> getAuthors() {
 		return authors;
 	}
 
-	public void setAuthors(Set<Author> authors) {
+	public void setAuthors(List<Author> authors) {
 		this.authors = authors;
 	}
 
