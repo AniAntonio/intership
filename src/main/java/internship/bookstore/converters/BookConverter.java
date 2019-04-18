@@ -10,6 +10,9 @@ import internship.bookstore.entities.Book;
 
 public class BookConverter {
 
+	private BookConverter() {
+	}
+
 	public static Book toBookEntity(BookDto bookDto) {
 		Book book = new Book();
 		book.setDescription(bookDto.getDescription());
@@ -27,10 +30,13 @@ public class BookConverter {
 		bookDto.setIsbn(book.getIsbn());
 		bookDto.setTitle(book.getTitle());
 		bookDto.setPublishingdate(book.getPublishingdate());
-		List<AuthorDto> authorsDto = new ArrayList<AuthorDto>();
+		List<AuthorDto> authorsDto = new ArrayList<>();
+		List<Long> idAuthors = new ArrayList<>();
 		for (Author author : book.getAuthors()) {
 			authorsDto.add(AuthorConverter.toAuthorDto(author));
+			idAuthors.add(author.getId());
 		}
+		bookDto.setIdAuthors(idAuthors);
 		bookDto.setBookauthors(authorsDto);
 		bookDto.setUser(book.getUser());
 		return bookDto;

@@ -19,20 +19,28 @@ import internship.bookstore.service.UserService;
 
 @Controller
 public class UserController {
-
+	
+	private static final String REGISTER_URL= "register.html";
+	
 	@Autowired
 	UserService userService;
-	
-	@RequestMapping(value = { "/", "/login" }, method = RequestMethod.GET)
+
+	@GetMapping(value = { "/" })
 	public ModelAndView home() {
 
 		return new ModelAndView("login.html");
 	}
+	
+	@GetMapping(value = { "/errorPage" })
+	public ModelAndView errorPage() {
 
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
+		return new ModelAndView("errorPage.html");
+	}
+
+	@GetMapping(value = "/login")
 	public ModelAndView login(@ModelAttribute(name = "User") User user, HttpServletRequest request) {
 		user = userService.getUserByUsernameAndPassword(user.getUsername(), user.getPassword());
-		if (user.getUsername() == null) {		
+		if (user.getUsername() == null) {
 			ModelAndView mv = new ModelAndView("login.html");
 			mv.addObject("message", "Wrong username or password!");
 			mv.addObject("alertClass", "alert-danger");
@@ -53,29 +61,29 @@ public class UserController {
 
 	@GetMapping("/register")
 	public ModelAndView goToRegisterPage(User user) {
-		ModelAndView mv = new ModelAndView("register.html");
+		ModelAndView mv = new ModelAndView(REGISTER_URL);
 		mv.addObject("user", user);
 		return mv;
 	}
 
 	@PostMapping("/register")
-	public ModelAndView register(@ModelAttribute @Valid  User user, BindingResult result) {
+	public ModelAndView register(@ModelAttribute @Valid User user, BindingResult result) {
 		if (result.hasErrors()) {
-			return new ModelAndView("register.html");
+			return new ModelAndView(REGISTER_URL);
 		}
-		if(!userService.addUser(user)) {
-			ModelAndView mv = new ModelAndView("register.html");
+		if (!userService.addUser(user)) {
+			ModelAndView mv = new ModelAndView(REGISTER_URL);
 			mv.addObject("message", "This username already exists!");
 			mv.addObject("alertClass", "alert-danger");
 			return mv;
 		}
-		return new ModelAndView("redirect:/login");
+		return new ModelAndView("redirect:/");
 	}
 
 	@GetMapping("/logout")
 	public ModelAndView goToLoginPage(User user, HttpServletRequest request) {
 		request.getSession().invalidate();
-		return new ModelAndView("redirect:/login");
+		return new ModelAndView("redirect:/");
 	}
 
 }

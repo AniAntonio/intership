@@ -21,7 +21,7 @@ public class AuthorServiceImpl implements AuthorService {
 
 	@Override
 	public List<AuthorDto> getAllAuthors() {
-		List<AuthorDto> authors = new ArrayList<AuthorDto>();
+		List<AuthorDto> authors = new ArrayList<>();
 		for (Author author : authorRepository.getAllAuthors()) {
 			authors.add(AuthorConverter.toAuthorDto(author));
 		}
@@ -50,7 +50,7 @@ public class AuthorServiceImpl implements AuthorService {
 				.getId() == null) {
 			return authorRepository.editAuthor(AuthorConverter.toAuthorEntity(authorDto));
 		} else if (authorRepository.getAuthorByFirstNameAndLastName(authorDto.getFirstname(), authorDto.getLastname())
-				.getId() == authorDto.getId()) {
+				.getId().equals(authorDto.getId())) {
 			return authorRepository.editAuthor(AuthorConverter.toAuthorEntity(authorDto));
 		} else {
 			return false;

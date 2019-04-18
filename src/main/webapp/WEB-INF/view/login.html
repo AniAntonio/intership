@@ -14,7 +14,7 @@
 		<div class="form">
 		
 			<form class="login-form" th:action="@{/login}" th:object="${User}"
-				method="post">
+				method="get">
 					<div th:if="${message}" th:text="${message}"
 				th:class="${'alert ' + alertClass}"></div>
 				<label for="username">Username</label>

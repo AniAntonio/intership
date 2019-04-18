@@ -17,12 +17,6 @@ public class BookDto {
 
 	private List<AuthorDto> bookauthors;
 
-	@Override
-	public String toString() {
-		return "BookDto [isbn=" + isbn + ", title=" + title + ", description=" + description + ", publishingdate="
-				+ publishingdate + ", bookauthors=" + bookauthors + ", idAuthors=" + idAuthors + ", user=" + user + "]";
-	}
-
 	private List<Long> idAuthors;
 
 	private User user;

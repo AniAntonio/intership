@@ -34,7 +34,7 @@ public class Author implements Serializable {
 	private String dateofbirth;
 
 	@Column(name = "valid")
-	private boolean valid;
+	private boolean deleted;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "iduser")
@@ -75,12 +75,12 @@ public class Author implements Serializable {
 		this.dateofbirth = dateofbirth;
 	}
 
-	public boolean isValid() {
-		return valid;
+	public boolean isDeleted() {
+		return deleted;
 	}
 
-	public void setValid(boolean valid) {
-		this.valid = valid;
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
 	}
 
 	public User getUser() {

@@ -29,7 +29,7 @@ public class BookServiceImpl implements BookService {
 	@Override
 	public List<BookDto> getAllBookBySearch(BookRequestDto request) {
 
-		List<BookDto> books = new ArrayList<BookDto>();
+		List<BookDto> books = new ArrayList<>();
 		if (request.getIdAuthor() != 0) {
 			Author author = authorRepository.getAuthorById((long) request.getIdAuthor());
 			for (Book book : bookRepository.getAllBookBySearch(request.getSearchedTitle(), author,
@@ -55,10 +55,9 @@ public class BookServiceImpl implements BookService {
 	public boolean addBook(BookDto bookDto) {
 
 		if (bookRepository.getBookByTitle(bookDto.getTitle()).getIsbn() == null) {
-			List<Author> authors = new ArrayList<Author>();
+			List<Author> authors = new ArrayList<>();
 			for (Long id : bookDto.getIdAuthors()) {
-				Author author = new Author();
-				author = authorRepository.getAuthorById(id);
+				Author author = authorRepository.getAuthorById(id);
 				authors.add(author);
 			}
 			bookDto.setAuthors(authors);
@@ -71,16 +70,15 @@ public class BookServiceImpl implements BookService {
 	@Override
 	public boolean editBook(BookDto bookDto) {
 		if (bookRepository.getBookByTitle(bookDto.getTitle()).getIsbn() == null
-				|| bookDto.getIsbn() == bookRepository.getBookByTitle(bookDto.getTitle()).getIsbn()) {
+				|| bookDto.getIsbn().equals(bookRepository.getBookByTitle(bookDto.getTitle()).getIsbn())) {
 			Book book = bookRepository.getBookByIsbn(bookDto.getIsbn());
 			book.setDescription(bookDto.getDescription());
 			book.setPublishingdate(bookDto.getPublishingdate());
 			book.setTitle(bookDto.getTitle());
 			book.setIsbn(bookDto.getIsbn());
-			List<Author> authors = new ArrayList<Author>();
+			List<Author> authors = new ArrayList<>();
 			for (Long id : bookDto.getIdAuthors()) {
-				Author author = new Author();
-				author = authorRepository.getAuthorById(id);
+				Author author = authorRepository.getAuthorById(id);
 				authors.add(author);
 			}
 			book.setAuthors(authors);

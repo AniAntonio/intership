@@ -25,32 +25,32 @@ public class User implements Serializable {
 	protected Long id;
 
 	@Column(name = "username", length = 50)
-	@Size(min=3,max = 50,message="Username must be from 3 to 50 letters!")
+	@Size(min = 3, max = 50, message = "Username must be from 3 to 50 letters!")
 	private String username;
 
 	@Column(name = "password", length = 100)
-	@Size(min=3,max = 50,message="Password must be from 3 to 50 letters!")
+	@Size(min = 3, max = 50, message = "Password must be from 3 to 50 letters!")
 	private String password;
 
 	@Column(name = "firstname", length = 50)
-	@Size(min=3,max = 50,message="Firstname must be from 3 to 50 letters!")
+	@Size(min = 3, max = 50, message = "Firstname must be from 3 to 50 letters!")
 	private String firstname;
 
 	@Column(name = "lastname", length = 50)
-	@Size(min=3,max = 50 , message="Lastname must be from 3 to 50 letters!")
+	@Size(min = 3, max = 50, message = "Lastname must be from 3 to 50 letters!")
 	private String lastname;
 
 	@Column(name = "email", length = 50)
-	@Email( message="Enter a valid email!")
+	@Email(message = "Enter a valid email!")
 	@NotNull
 	private String email;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "idrole")
 	private Role role;
 
 	@Column(name = "valid")
-	private boolean valid;
+	private boolean deleted;
 
 	public Long getId() {
 		return id;
@@ -108,12 +108,12 @@ public class User implements Serializable {
 		this.role = role;
 	}
 
-	public boolean isValid() {
-		return valid;
+	public boolean isDeleted() {
+		return deleted;
 	}
 
-	public void setValid(boolean valid) {
-		this.valid = valid;
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
 	}
 
 }

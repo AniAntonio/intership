@@ -17,13 +17,12 @@
 	<div th:switch="${authors}">
 		<h2>
 			All Authors <a th:if="${session.user.role.id==1}"
-				th:href="@{/author/addAuthor}" class="btn btn-success">Add
-				Author</a>
+				th:href="@{/author/add}" class="btn btn-success">Add Author</a>
 		</h2>
-
+		<div th:if="${message}" th:text="${message}"
+			th:class="${'alert ' + alertClass}" role="alert"></div>
 		<h2 th:case="null">No authors yet!</h2>
 		<div th:case="*">
-
 			<table class="table table-striped">
 				<thead>
 					<tr>
@@ -58,9 +57,9 @@
 											<h3>Are you sure want to delete this author?</h3>
 										</div>
 										<div class="modal-footer">
-											<button type="button" class="btn btn-outline pull-left"
+											<button type="button" class="btn btn-success pull-left"
 												data-dismiss="modal">Close</button>
-											<a type="button" class="btn btn-outline"
+											<a type="button" class="btn btn-danger"
 												th:href="@{/author/delete/{id}(id=${author.id})}"><i
 												class="fa fa-check"></i>&nbsp;Yes</a>
 										</div>

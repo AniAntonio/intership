@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+	<title>404 HTML Template by Colorlib</title>
+
+	
+<link href="webjars/bootstrap/3.3.2/css/bootstrap.min.css"
+	rel="stylesheet" media="screen" />
+
+
+	<link type="text/css" rel="stylesheet" href="css/style.css" />
+
+
+</head>
+
+<body>
+
+	<div id="notfound">
+		<div class="notfound">
+			<div class="notfound-404">
+				<h1>404</h1>
+			</div>
+			<h2>Oops! This Page Could Not Be Found</h2>
+			<p>Sorry but the page you are looking for does not exist, have been removed. name changed or is temporarily unavailable</p>
+			<a th:href="@{/}" class="btn btn-default">Go To Login Page</a>
+		</div>
+	</div>
+
+</body>
+
+</html>

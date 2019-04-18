@@ -17,10 +17,8 @@
 	<div th:switch="${books}">
 		<h2>
 			All Books In Our BookStore <a th:if="${session.user.role.id==1}"
-				th:href="@{/book/AddBook}" class="btn btn-success">Add Book</a>
+				th:href="@{/book/add}" class="btn btn-success">Add Book</a>
 		</h2>
-
-
 		<form action="#" th:action="@{/admin/bookList}" th:object="${utilDto}"
 			class="form-inline" method="get">
 			<div class="form-group">
@@ -47,7 +45,8 @@
 			<div class="form-group">
 				<button type="submit" class="btn btn-primary">Search</button>
 			</div>
-
+			<div th:if="${message}" th:text="${message}"
+				th:class="${'alert ' + alertClass}" role="alert"></div>
 		</form>
 		<h2 th:case="null">No books yet!</h2>
 		<div th:case="*">
@@ -91,9 +90,9 @@
 											<h3>Are you sure want to delete this book?</h3>
 										</div>
 										<div class="modal-footer">
-											<button type="button" class="btn btn-outline pull-left"
+											<button type="button" class="btn btn-success pull-left"
 												data-dismiss="modal">Close</button>
-											<a type="button" class="btn btn-outline"
+											<a type="button" class="btn btn-danger"
 												th:href="@{/book/delete/{isbn}(isbn=${book.isbn})}"><i
 												class="fa fa-check"></i>&nbsp;Yes</a>
 										</div>

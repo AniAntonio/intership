@@ -19,10 +19,10 @@ public class BookRepositoryImpl implements BookRepository {
 	EntityManager entityManager;
 
 	public List<Book> getAllBookBySearch(String searchedTitle, Author author, int pageNumber) {
-		List<Book> books = new ArrayList<Book>();
+		List<Book> books = new ArrayList<>();
 		try {
 			StringBuilder booksQuery = new StringBuilder(
-					"Select book from Book book join fetch book.authors authors where book.valid=:valid");
+					"Select book from Book book join fetch book.authors authors where book.deleted is false");
 			if (searchedTitle != null) {
 				booksQuery.append("  AND (LOWER(book.title) LIKE LOWER(CONCAT('%',:searchedTitle, '%')))");
 			}
@@ -31,7 +31,6 @@ public class BookRepositoryImpl implements BookRepository {
 			}
 
 			TypedQuery<Book> booksTypedQuery = entityManager.createQuery(booksQuery.toString(), Book.class);
-			booksTypedQuery.setParameter("valid", Boolean.TRUE);
 			if (searchedTitle != null) {
 				booksTypedQuery.setParameter("searchedTitle", searchedTitle);
 			}
@@ -54,17 +53,21 @@ public class BookRepositoryImpl implements BookRepository {
 	public int countBooks(String searchedTitle, Author author) {
 		try {
 			StringBuilder booksQuery = new StringBuilder(
-					"Select  book from Book book join fetch book.authors authors where book.valid=:valid");
+					"Select DISTINCT book from Book book join fetch book.authors authors where book.deleted is false");
 			if (searchedTitle != null) {
 				booksQuery.append("  AND (LOWER(book.title) LIKE LOWER(CONCAT('%',:searchedTitle, '%')))");
 			}
-			booksQuery.append(" AND ((:author IN authors) OR :author is null)");
+			if (author != null) {
+				booksQuery.append(" AND (:author IN authors)");
+			}
+
 			TypedQuery<Book> booksTypedQuery = entityManager.createQuery(booksQuery.toString(), Book.class);
-			booksTypedQuery.setParameter("valid", Boolean.TRUE);
 			if (searchedTitle != null) {
 				booksTypedQuery.setParameter("searchedTitle", searchedTitle);
 			}
-			booksTypedQuery.setParameter("author", author);
+			if (author != null) {
+				booksTypedQuery.setParameter("author", author);
+			}
 			return booksTypedQuery.getResultList().size();
 		} catch (Exception e) {
 			return 0;
@@ -76,9 +79,8 @@ public class BookRepositoryImpl implements BookRepository {
 		Book book = new Book();
 		try {
 			TypedQuery<Book> bookQuery = entityManager.createQuery(
-					"Select book from Book book where book.title=:title and book.valid=:valid", Book.class);
+					"Select book from Book book where book.title=:title and book.deleted is false", Book.class);
 			bookQuery.setParameter("title", title);
-			bookQuery.setParameter("valid", Boolean.TRUE);
 			book = bookQuery.getSingleResult();
 			return book;
 		} catch (Exception e) {
@@ -89,10 +91,9 @@ public class BookRepositoryImpl implements BookRepository {
 	public Book getBookByIsbn(Long isbn) {
 		Book book = new Book();
 		try {
-			TypedQuery<Book> bookQuery = entityManager
-					.createQuery("Select book from Book book where book.isbn=:isbn and  book.valid=:valid", Book.class);
+			TypedQuery<Book> bookQuery = entityManager.createQuery(
+					"Select book from Book book where book.isbn=:isbn and  book.deleted is false", Book.class);
 			bookQuery.setParameter("isbn", isbn);
-			bookQuery.setParameter("valid", Boolean.TRUE);
 			book = bookQuery.getSingleResult();
 			return book;
 		} catch (Exception e) {
@@ -102,7 +103,7 @@ public class BookRepositoryImpl implements BookRepository {
 
 	public boolean addBook(Book book) {
 		try {
-			book.setValid(Boolean.TRUE);
+			book.setDeleted(Boolean.FALSE);
 			entityManager.persist(book);
 			return true;
 		} catch (Exception e) {
@@ -112,6 +113,7 @@ public class BookRepositoryImpl implements BookRepository {
 
 	public boolean editBook(Book book) {
 		try {
+			book.setDeleted(Boolean.FALSE);
 			entityManager.merge(book);
 			return true;
 		} catch (Exception e) {
@@ -121,7 +123,7 @@ public class BookRepositoryImpl implements BookRepository {
 
 	public boolean deleteBook(Book book) {
 		try {
-			book.setValid(Boolean.FALSE);
+			book.setDeleted(Boolean.TRUE);
 			entityManager.merge(book);
 			return true;
 		} catch (Exception e) {

@@ -5,6 +5,9 @@ import internship.bookstore.entities.Author;
 
 public class AuthorConverter {
 
+	private AuthorConverter() {
+	}
+
 	public static Author toAuthorEntity(AuthorDto authorDto) {
 		Author author = new Author();
 		author.setDateofbirth(authorDto.getDateofbirth());
@@ -24,5 +27,5 @@ public class AuthorConverter {
 		authorDto.setUser(author.getUser());
 		return authorDto;
 	}
-	
+
 }

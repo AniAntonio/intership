@@ -35,24 +35,16 @@ public class Book implements Serializable {
 	private String publishingdate;
 
 	@Column(name = "valid")
-	private boolean valid;
+	private boolean deleted;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "iduser")
 	private User user;
 
-	@ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
+	@ManyToMany(cascade = { CascadeType.ALL })
 	@JoinTable(name = "book_author", joinColumns = { @JoinColumn(name = "isbnbook") }, inverseJoinColumns = {
 			@JoinColumn(name = "idauthor") })
 	private List<Author> authors;
-	
-	
-
-	@Override
-	public String toString() {
-		return "Book [isbn=" + isbn + ", title=" + title + ", description=" + description + ", publishingdate="
-				+ publishingdate + ", valid=" + valid + ", user=" + user + ", authors=" + authors + "]";
-	}
 
 	public Long getIsbn() {
 		return isbn;
@@ -86,12 +78,12 @@ public class Book implements Serializable {
 		this.publishingdate = publishingdate;
 	}
 
-	public boolean isValid() {
-		return valid;
+	public boolean isDeleted() {
+		return deleted;
 	}
 
-	public void setValid(boolean valid) {
-		this.valid = valid;
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
 	}
 
 	public User getUser() {
