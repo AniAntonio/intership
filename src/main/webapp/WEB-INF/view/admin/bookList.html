@@ -54,20 +54,22 @@
 				<thead>
 					<tr>
 						<th scope="col">Title</th>
-						<th scope="col">Description</th>
 						<th scope="col">Publishing Date</th>
 						<th scope="col">Authors</th>
-						<th scope="col" th:if="${session.user.role.id==1}">Action</th>
+						<th scope="col">Review Book</th>
+						<th scope="col" th:if="${session.user.role.rolename=='ADMIN'}">Action</th>
 
 					</tr>
 				</thead>
 				<tbody>
 					<tr th:each="book : ${books}">
 						<td scope="row" th:text="${book.title}"></td>
-						<td th:text="${book.description}"></td>
 						<td th:text="${book.publishingdate}"></td>
 						<td><p th:each="author: ${book.bookauthors}"
 								th:text="${author.firstname +' '+author.lastname}"></p></td>
+						<td><a
+							th:href="@{/book/bookReview/{isbn}(isbn=${book.isbn})}"
+							class="btn btn-default">Review</a></td>
 						<td th:if="${session.user.role.id==1}"><a
 							th:href="@{/book/edit/{isbn}(isbn=${book.isbn})}"
 							class="btn btn-default">Edit</a></td>

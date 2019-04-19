@@ -93,4 +93,13 @@ public class AuthorRepositoryImpl implements AuthorRepository {
 		}
 	}
 
+	@Override
+	public List<Author> getAuthorsByIdList(List<Long> idList) {
+		TypedQuery<Author> authorsQuery = entityManager.createQuery(
+				"Select author FROM Author author where author.deleted is false and author.id IN :idList",
+				Author.class);
+		authorsQuery.setParameter("idList", idList);
+		return authorsQuery.getResultList();
+	}
+
 }

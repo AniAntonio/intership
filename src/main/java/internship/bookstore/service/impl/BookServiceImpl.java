@@ -55,11 +55,7 @@ public class BookServiceImpl implements BookService {
 	public boolean addBook(BookDto bookDto) {
 
 		if (bookRepository.getBookByTitle(bookDto.getTitle()).getIsbn() == null) {
-			List<Author> authors = new ArrayList<>();
-			for (Long id : bookDto.getIdAuthors()) {
-				Author author = authorRepository.getAuthorById(id);
-				authors.add(author);
-			}
+			List<Author> authors = authorRepository.getAuthorsByIdList(bookDto.getIdAuthors());
 			bookDto.setAuthors(authors);
 			return bookRepository.addBook(BookConverter.toBookEntity(bookDto));
 		} else {
@@ -76,11 +72,7 @@ public class BookServiceImpl implements BookService {
 			book.setPublishingdate(bookDto.getPublishingdate());
 			book.setTitle(bookDto.getTitle());
 			book.setIsbn(bookDto.getIsbn());
-			List<Author> authors = new ArrayList<>();
-			for (Long id : bookDto.getIdAuthors()) {
-				Author author = authorRepository.getAuthorById(id);
-				authors.add(author);
-			}
+			List<Author> authors = authorRepository.getAuthorsByIdList(bookDto.getIdAuthors());
 			book.setAuthors(authors);
 			return bookRepository.editBook(book);
 		} else {

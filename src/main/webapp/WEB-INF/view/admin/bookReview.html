@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Book Review</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css" th:href="@{/css/adminHome.css}" />
+</head>
+<body>
+	<div th:replace="templates/header :: headertemplate"></div>
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-2">
+				<h1>Title</h1>
+				<span th:utext="${book.title}"></span>
+			</div>
+			<div class="col-sm-4">
+				<h1>Description</h1>
+				<span th:utext="${book.description}"></span>
+			</div>
+			<div class="col-sm-2">
+				<h1>Publishing Date</h1>
+				<span th:utext="${book.publishingdate}"></span>
+			</div>
+			<div class="col-sm-2">
+				<h1>Author</h1>
+				<span th:each="author: ${book.bookauthors}"
+					th:text="${author.firstname +' '+author.lastname}"></span>
+			</div>
+		</div>
+	</div>
+	<div>
+		<div th:switch="${reviews}">
+			<h2>
+				<a th:if="${addReviewStatus==true}"
+					th:href="@{create/{isbn}(isbn=${book.isbn})}"
+					class="btn btn-success">Add Review</a>
+			</h2>
+			<h2 th:if="${#lists.isEmpty(reviews)}">No reviews yet!</h2>
+			<div th:if="${not #lists.isEmpty(reviews)}">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th scope="col">Vote</th>
+							<th scope="col">Comment</th>
+							<th scope="col">User</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="review : ${reviews}">
+							<td th:text="${review.vote}"></td>
+							<td th:text="${review.comment}"></td>
+							<td th:text="${review.user.firstname}"></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<footer th:replace="templates/footer :: footertemplate"> </footer>
+</body>
+</html>

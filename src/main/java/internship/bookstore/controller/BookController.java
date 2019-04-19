@@ -17,6 +17,7 @@ import internship.bookstore.dto.BookDto;
 import internship.bookstore.dto.BookRequestDto;
 import internship.bookstore.entities.User;
 import internship.bookstore.service.AuthorService;
+import internship.bookstore.service.BookReviewService;
 import internship.bookstore.service.BookService;
 
 @Controller
@@ -75,7 +76,7 @@ public class BookController {
 	}
 
 	@PostMapping("/book")
-	public ModelAndView addBook(@Valid BookDto bookDto, HttpServletRequest request, RedirectAttributes redirectAttrs) {
+	public ModelAndView saveBook(@Valid BookDto bookDto, HttpServletRequest request, RedirectAttributes redirectAttrs) {
 		User user = (User) request.getSession().getAttribute("user");
 		bookDto.setUser(user);
 		ModelAndView mv = new ModelAndView(ADD_BOOK_URL);

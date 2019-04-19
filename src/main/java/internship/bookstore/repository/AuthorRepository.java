@@ -8,6 +8,8 @@ public interface AuthorRepository {
 
 	List<Author> getAllAuthors();
 
+	List<Author> getAuthorsByIdList(List<Long> ids);
+
 	Author getAuthorByFirstNameAndLastName(String firstname, String lastname);
 
 	Author getAuthorById(Long id);
