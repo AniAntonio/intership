@@ -1,6 +1,7 @@
 package internship.bookstore.repository.impl;
 
 import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -18,8 +19,9 @@ public class BookReviewRepositoryImpl implements BookReviewRepository {
 
 	@Override
 	public List<BookReview> getAllBookreviews(Long isbnBook) {
-		TypedQuery<BookReview> reviewsQuery = entityManager
-				.createQuery("Select review from BookReview review where review.book.isbn=:isbnbook", BookReview.class);
+		TypedQuery<BookReview> reviewsQuery = entityManager.createQuery(
+				"Select review from BookReview review where review.book.isbn=:isbnbook order by (review.thumbup*review.vote)",
+				BookReview.class);
 		reviewsQuery.setParameter("isbnbook", isbnBook);
 		return reviewsQuery.getResultList();
 	}
@@ -47,6 +49,15 @@ public class BookReviewRepositoryImpl implements BookReviewRepository {
 		} catch (Exception e) {
 			return bookReview;
 		}
+	}
+
+	@Override
+	public Double calculateBookRating(Long isbnBook) {
+		TypedQuery reviewsQuery = (TypedQuery) entityManager.createQuery(
+				"Select AVG(vote)/10+AVG(thumbup)  FROM  BookReview review where review.book.isbn=:isbnbook");
+		reviewsQuery.setParameter("isbnbook", isbnBook);
+
+		return (Double) reviewsQuery.getSingleResult();
 	}
 
 }

@@ -5,7 +5,6 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,20 +31,14 @@ public class BookReviewController {
 	AuthorService authorService;
 
 	@GetMapping("/book/bookReview/{isbn}")
-	public ModelAndView goToBookReviewPage(@PathVariable("isbn") Long isbn, HttpServletRequest request) {
+	public ModelAndView goToBookReviewPage(@PathVariable("isbn") Long isbn, HttpServletRequest request,
+			BookReview bookReview) {
 		User user = (User) request.getSession().getAttribute("user");
 		BookDto bookDto = bookService.getBookByIsbn(isbn);
 		ModelAndView mv = new ModelAndView("admin/bookReview.html");
 		mv.addObject("addReviewStatus", bookReviewService.checkIfUserHasDoneReview(isbn, user.getId()));
 		mv.addObject("book", bookDto);
 		mv.addObject("reviews", bookReviewService.getAllBookreviews(isbn));
-		return mv;
-	}
-
-	@GetMapping("book/bookReview/create/{isbn}")
-	public ModelAndView goToCreateReviewPage(@PathVariable("isbn") Long isbn, HttpServletRequest request,
-			BookReview bookReview) {
-		ModelAndView mv = new ModelAndView("admin/createReview.html");
 		mv.addObject("review", bookReview);
 		mv.addObject("isbn", isbn);
 		return mv;

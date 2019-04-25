@@ -26,6 +26,9 @@ public class BookReview implements Serializable {
 	@Column(name = "comment")
 	private String comment;
 
+	@Column(name = "thumbup")
+	private int thumbup;
+
 	@ManyToOne
 	@JoinColumn(name = "isbnbook")
 	private Book book;
@@ -56,6 +59,14 @@ public class BookReview implements Serializable {
 
 	public void setComment(String comment) {
 		this.comment = comment;
+	}
+
+	public int getThumbup() {
+		return thumbup;
+	}
+
+	public void setThumbup(int thumbup) {
+		this.thumbup = thumbup;
 	}
 
 	public Book getBook() {

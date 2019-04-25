@@ -29,7 +29,7 @@ public class BookRepositoryImpl implements BookRepository {
 			if (author != null) {
 				booksQuery.append(" AND (:author IN authors)");
 			}
-
+			booksQuery.append(" order by rating desc");
 			TypedQuery<Book> booksTypedQuery = entityManager.createQuery(booksQuery.toString(), Book.class);
 			if (searchedTitle != null) {
 				booksTypedQuery.setParameter("searchedTitle", searchedTitle);

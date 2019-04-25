@@ -8,8 +8,9 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import internship.bookstore.dto.BookDto;
+import internship.bookstore.entities.Book;
 import internship.bookstore.entities.BookReview;
+import internship.bookstore.repository.BookRepository;
 import internship.bookstore.repository.BookReviewRepository;
 import internship.bookstore.service.BookReviewService;
 
@@ -19,6 +20,8 @@ public class BookReviewServiceImpl implements BookReviewService {
 
 	@Autowired
 	BookReviewRepository bookReviewRepository;
+	@Autowired
+	BookRepository bookRepository;
 
 	@Override
 	public List<BookReview> getAllBookreviews(Long isbnBook) {
@@ -29,13 +32,19 @@ public class BookReviewServiceImpl implements BookReviewService {
 
 	@Override
 	public boolean addBookReview(BookReview bookReview) {
-		return bookReviewRepository.addBookReview(bookReview);
+		if (bookReviewRepository.addBookReview(bookReview)) {
+			Book book = bookRepository.getBookByIsbn(bookReview.getBook().getIsbn());
+			book.setRating(bookReviewRepository.calculateBookRating(bookReview.getBook().getIsbn()));
+			bookRepository.editBook(book);
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	@Override
 	public boolean checkIfUserHasDoneReview(Long isbnBook, Long iduser) {
 		return (bookReviewRepository.checkIfUserHasDoneReview(isbnBook, iduser).getId() == null);
-
 	}
 
 }

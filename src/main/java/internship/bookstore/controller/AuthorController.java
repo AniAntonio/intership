@@ -2,17 +2,16 @@ package internship.bookstore.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import internship.bookstore.dto.AuthorDto;
 import internship.bookstore.entities.User;
 import internship.bookstore.service.AuthorService;
@@ -92,7 +91,6 @@ public class AuthorController {
 			redirectAttrs.addFlashAttribute(MESSAGE, "Author edited successfully!");
 			redirectAttrs.addFlashAttribute(ALERT_CLASS, ALERT_SUCCESS);
 		}
-
 		return new ModelAndView(REDIRECT_TO_AUTHOR_LIST);
 	}
 }

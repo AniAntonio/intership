@@ -7,9 +7,9 @@ import internship.bookstore.entities.Book;
 
 public interface BookRepository {
 
-	List<Book> getAllBookBySearch(String searchedTitle,Author author,int pageNumber);
+	List<Book> getAllBookBySearch(String searchedTitle, Author author, int pageNumber);
 
-	int countBooks(String searchedTitle,Author author);
+	int countBooks(String searchedTitle, Author author);
 
 	Book getBookByTitle(String title);
 

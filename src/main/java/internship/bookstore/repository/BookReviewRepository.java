@@ -12,4 +12,6 @@ public interface BookReviewRepository {
 
 	BookReview checkIfUserHasDoneReview(Long isbnBook, Long iduser);
 
+	Double calculateBookRating(Long isbnBook);
+
 }

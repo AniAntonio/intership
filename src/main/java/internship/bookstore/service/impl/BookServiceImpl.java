@@ -15,6 +15,7 @@ import internship.bookstore.entities.Book;
 import internship.bookstore.repository.AuthorRepository;
 import internship.bookstore.repository.BookRepository;
 import internship.bookstore.service.BookService;
+import internship.bookstore.service.CustomException;
 
 @Service
 @Transactional
@@ -87,7 +88,11 @@ public class BookServiceImpl implements BookService {
 
 	@Override
 	public BookDto getBookByIsbn(Long isbn) {
-		return BookConverter.toBookDto(bookRepository.getBookByIsbn(isbn));
+		try {
+			return BookConverter.toBookDto(bookRepository.getBookByIsbn(isbn));
+		} catch (Exception e) {
+			throw new CustomException("Book with this id not found! You need to login again!");
+		}
 	}
 
 	@Override

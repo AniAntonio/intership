@@ -47,6 +47,12 @@ public class Book implements Serializable {
 			@JoinColumn(name = "idauthor") })
 	private List<Author> authors;
 
+	@Column(name = "rating")
+	private Double rating;
+
+	@OneToMany(mappedBy = "book", cascade = { CascadeType.ALL })
+	private List<BookReview> bookReviews;
+
 	public Long getIsbn() {
 		return isbn;
 	}
@@ -101,6 +107,22 @@ public class Book implements Serializable {
 
 	public void setAuthors(List<Author> authors) {
 		this.authors = authors;
+	}
+
+	public Double getRating() {
+		return rating;
+	}
+
+	public void setRating(Double rating) {
+		this.rating = rating;
+	}
+
+	public List<BookReview> getBookReviews() {
+		return bookReviews;
+	}
+
+	public void setBookReviews(List<BookReview> bookReviews) {
+		this.bookReviews = bookReviews;
 	}
 
 }

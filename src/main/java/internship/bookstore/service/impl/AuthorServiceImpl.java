@@ -12,6 +12,7 @@ import internship.bookstore.dto.AuthorDto;
 import internship.bookstore.entities.Author;
 import internship.bookstore.repository.AuthorRepository;
 import internship.bookstore.service.AuthorService;
+import internship.bookstore.service.CustomException;
 
 @Service
 @Transactional
@@ -30,8 +31,11 @@ public class AuthorServiceImpl implements AuthorService {
 
 	@Override
 	public AuthorDto getAuthorById(Long id) {
-
-		return AuthorConverter.toAuthorDto(authorRepository.getAuthorById(id));
+		if (AuthorConverter.toAuthorDto(authorRepository.getAuthorById(id)).getFirstname() == null) {
+			throw new CustomException("Wrong id of the author on edit author.Please login again!");
+		} else {
+			return AuthorConverter.toAuthorDto(authorRepository.getAuthorById(id));
+		}
 	}
 
 	@Override

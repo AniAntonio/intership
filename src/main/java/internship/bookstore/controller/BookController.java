@@ -17,7 +17,6 @@ import internship.bookstore.dto.BookDto;
 import internship.bookstore.dto.BookRequestDto;
 import internship.bookstore.entities.User;
 import internship.bookstore.service.AuthorService;
-import internship.bookstore.service.BookReviewService;
 import internship.bookstore.service.BookService;
 
 @Controller
@@ -100,5 +99,4 @@ public class BookController {
 		}
 		return new ModelAndView(REDIRECT_TO_BOOK_LIST);
 	}
-
 }

@@ -35,7 +35,8 @@ public class UserRepositoryImpl implements UserRepository {
 		User user = new User();
 		try {
 			TypedQuery<User> userQuery = entityManager.createQuery(
-					"Select user from User user where user.username=:username and user.password=:password and user.deleted is false",User.class);
+					"Select user from User user where user.username=:username and user.password=:password and user.deleted is false",
+					User.class);
 			userQuery.setParameter("username", username);
 			userQuery.setParameter("password", password);
 			user = userQuery.getSingleResult();
@@ -49,8 +50,7 @@ public class UserRepositoryImpl implements UserRepository {
 		User user = new User();
 		try {
 			TypedQuery<User> userQuery = entityManager.createQuery(
-					"Select user from User user where user.username=:username and user.deleted is false",
-					User.class);
+					"Select user from User user where user.username=:username and user.deleted is false", User.class);
 			userQuery.setParameter("username", username);
 			user = userQuery.getSingleResult();
 			return user;
