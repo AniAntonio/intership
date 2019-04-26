@@ -20,7 +20,8 @@
 			th:class="${'alert ' + alertClass}"></div>
 		<form class="form-horizontal" action="#" th:action="@{/book}"
 			th:object="${book}" th:method="post">
-			<input type="hidden" th:field="*{isbn}" th:value="${book.isbn}" />
+			<input type="hidden" th:field="*{isbn}" th:value="${book.isbn}" /> <input
+				type="hidden" th:field="*{rating}" th:value="${book.rating}" />
 			<div class="form-group">
 				<label for="title" class="control-label col-sm-4">Title</label>
 				<div class="col-sm-8">

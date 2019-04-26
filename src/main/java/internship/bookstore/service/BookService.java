@@ -6,7 +6,7 @@ import internship.bookstore.dto.BookDto;
 import internship.bookstore.dto.BookRequestDto;
 
 public interface BookService {
-	List<BookDto> getAllBookBySearch(BookRequestDto request);
+	List<BookDto> getAllBooksBySearch(BookRequestDto request);
 
 	int countBooks(BookRequestDto request);
 
@@ -14,9 +14,7 @@ public interface BookService {
 
 	BookDto getBookByIsbn(Long isbn);
 
-	boolean addBook(BookDto book);
-
-	boolean editBook(BookDto book);
+	boolean saveBook(BookDto book);
 
 	boolean deleteBook(BookDto book);
 

@@ -42,7 +42,7 @@ public class AuthorServiceImpl implements AuthorService {
 	public boolean addAuthor(AuthorDto authorDto) {
 		if (authorRepository.getAuthorByFirstNameAndLastName(authorDto.getFirstname(), authorDto.getLastname())
 				.getId() == null) {
-			return authorRepository.addAuthor(AuthorConverter.toAuthorEntity(authorDto));
+			return authorRepository.saveAuthor(AuthorConverter.toAuthorEntity(authorDto));
 		} else {
 			return false;
 		}
@@ -50,12 +50,10 @@ public class AuthorServiceImpl implements AuthorService {
 
 	@Override
 	public boolean editAuthor(AuthorDto authorDto) {
-		if (authorRepository.getAuthorByFirstNameAndLastName(authorDto.getFirstname(), authorDto.getLastname())
-				.getId() == null) {
-			return authorRepository.editAuthor(AuthorConverter.toAuthorEntity(authorDto));
-		} else if (authorRepository.getAuthorByFirstNameAndLastName(authorDto.getFirstname(), authorDto.getLastname())
-				.getId().equals(authorDto.getId())) {
-			return authorRepository.editAuthor(AuthorConverter.toAuthorEntity(authorDto));
+		Long authorId = authorRepository
+				.getAuthorByFirstNameAndLastName(authorDto.getFirstname(), authorDto.getLastname()).getId();
+		if (authorId == null || authorId.equals(authorDto.getId())) {
+			return authorRepository.saveAuthor(AuthorConverter.toAuthorEntity(authorDto));
 		} else {
 			return false;
 		}

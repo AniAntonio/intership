@@ -9,16 +9,19 @@
 		</div>
 		<div class="collapse navbar-collapse" id="myNavbar">
 			<ul class="nav navbar-nav">
-			<li><a href="" th:text="${session.user.firstname + ''+session.user.lastname}"></a> </li>
-				<li ><a th:href="@{/adminHome}">Home</a></li>
-				<li><a th:href="@{/admin/bookList}">Book </a></li>
-				<li><a th:href="@{/admin/authorList}">Author </a></li>
+				<li><a href=""
+					th:text="${session.user.firstname + ''+session.user.lastname}"></a>
+				</li>
+				<li><a th:href="@{/adminHome}">Home</a></li>
+				<li><a th:href="@{/admin/bookList}">Books </a></li>
+				<li><a th:href="@{/admin/authorList}">Authors </a></li>
 			</ul>
-			
+
 			<ul class="nav navbar-nav navbar-right">
-				<li><a th:href="@{/logout}"><span class="glyphicon glyphicon-log-in"></span>
-						Log Out</a></li>
+				<li><a th:href="@{/logout}"><span
+						class="glyphicon glyphicon-log-in"></span> Log Out</a></li>
 			</ul>
 		</div>
 	</div>
-</nav>y
+</nav>
+y

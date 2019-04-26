@@ -25,6 +25,8 @@ public class BookDto {
 
 	private String searchParam;
 
+	private Double rating;
+
 	public Long getIsbn() {
 		return isbn;
 	}
@@ -95,6 +97,14 @@ public class BookDto {
 
 	public void setSearchParam(String searchParam) {
 		this.searchParam = searchParam;
+	}
+
+	public Double getRating() {
+		return rating;
+	}
+
+	public void setRating(Double rating) {
+		this.rating = rating;
 	}
 
 }

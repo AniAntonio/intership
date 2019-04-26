@@ -50,7 +50,7 @@ public class Book implements Serializable {
 	@Column(name = "rating")
 	private Double rating;
 
-	@OneToMany(mappedBy = "book", cascade = { CascadeType.ALL })
+	@OneToMany(mappedBy = "book")
 	private List<BookReview> bookReviews;
 
 	public Long getIsbn() {

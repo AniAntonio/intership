@@ -21,6 +21,7 @@ public class BookConverter {
 		book.setIsbn(bookDto.getIsbn());
 		book.setUser(bookDto.getUser());
 		book.setAuthors(bookDto.getAuthors());
+		book.setRating(bookDto.getRating());
 		return book;
 	}
 
@@ -36,6 +37,7 @@ public class BookConverter {
 			authorsDto.add(AuthorConverter.toAuthorDto(author));
 			idAuthors.add(author.getId());
 		}
+		bookDto.setRating(book.getRating());
 		bookDto.setIdAuthors(idAuthors);
 		bookDto.setBookauthors(authorsDto);
 		bookDto.setUser(book.getUser());

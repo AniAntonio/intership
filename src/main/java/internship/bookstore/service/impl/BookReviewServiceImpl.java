@@ -1,6 +1,5 @@
 package internship.bookstore.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -25,7 +24,7 @@ public class BookReviewServiceImpl implements BookReviewService {
 
 	@Override
 	public List<BookReview> getAllBookreviews(Long isbnBook) {
-		List<BookReview> reviews = new ArrayList<>();
+		List<BookReview> reviews;
 		reviews = bookReviewRepository.getAllBookreviews(isbnBook);
 		return reviews;
 	}
@@ -35,7 +34,7 @@ public class BookReviewServiceImpl implements BookReviewService {
 		if (bookReviewRepository.addBookReview(bookReview)) {
 			Book book = bookRepository.getBookByIsbn(bookReview.getBook().getIsbn());
 			book.setRating(bookReviewRepository.calculateBookRating(bookReview.getBook().getIsbn()));
-			bookRepository.editBook(book);
+			bookRepository.saveBook(book);
 			return true;
 		} else {
 			return false;

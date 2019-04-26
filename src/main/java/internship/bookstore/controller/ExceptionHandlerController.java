@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import internship.bookstore.service.CustomException;
 
 @ControllerAdvice
@@ -15,4 +16,6 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
 		redAttr.addFlashAttribute("message", ex.getMessage());
 		return new ModelAndView("redirect:/errorPage");
 	}
+
+
 }

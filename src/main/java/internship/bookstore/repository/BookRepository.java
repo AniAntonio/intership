@@ -15,9 +15,7 @@ public interface BookRepository {
 
 	Book getBookByIsbn(Long isbn);
 
-	boolean addBook(Book book);
-
-	boolean editBook(Book book);
+	boolean saveBook(Book book);
 
 	boolean deleteBook(Book book);
 

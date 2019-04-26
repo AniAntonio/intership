@@ -38,7 +38,7 @@ public class BookController {
 	@GetMapping(value = "/admin/bookList")
 	public ModelAndView goToBookList(BookRequestDto request) {
 		ModelAndView mv = new ModelAndView(BOOK_LIST_URL);
-		List<BookDto> books = bookService.getAllBookBySearch(request);
+		List<BookDto> books = bookService.getAllBooksBySearch(request);
 		int totalPages = (bookService.countBooks(request) + 4) / 5;
 		mv.addObject(AUTHORS, authorService.getAllAuthors());
 		mv.addObject("totalpages", totalPages);
@@ -80,17 +80,18 @@ public class BookController {
 		bookDto.setUser(user);
 		ModelAndView mv = new ModelAndView(ADD_BOOK_URL);
 		mv.addObject("book", bookDto);
-		mv.addObject(AUTHORS, authorService.getAllAuthors());
 		mv.addObject(MESSAGE, "Book with this title already exists!");
 		mv.addObject(ALERT_CLASS, "alert-danger");
 		if (bookDto.getIsbn() == null) {
-			if (!bookService.addBook(bookDto)) {
+			if (!bookService.saveBook(bookDto)) {
+				mv.addObject(AUTHORS, authorService.getAllAuthors());
 				mv.addObject(ADD_STATUS, Boolean.TRUE);
 				return mv;
 			}
 			redirectAttrs.addFlashAttribute(MESSAGE, "Book added successfully!!");
 			redirectAttrs.addFlashAttribute(ALERT_CLASS, ALERT_SUCCESS);
-		} else if (!bookService.editBook(bookDto)) {
+		} else if (!bookService.saveBook(bookDto)) {
+			mv.addObject(AUTHORS, authorService.getAllAuthors());
 			mv.addObject(ADD_STATUS, Boolean.FALSE);
 			return mv;
 		} else {

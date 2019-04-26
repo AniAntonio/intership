@@ -14,9 +14,7 @@ public interface AuthorRepository {
 
 	Author getAuthorById(Long id);
 
-	boolean addAuthor(Author author);
-
-	boolean editAuthor(Author author);
+	boolean saveAuthor(Author author);
 
 	boolean deleteAuthor(Author author);
 

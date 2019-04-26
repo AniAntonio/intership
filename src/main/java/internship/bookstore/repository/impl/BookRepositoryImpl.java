@@ -76,42 +76,28 @@ public class BookRepositoryImpl implements BookRepository {
 	}
 
 	public Book getBookByTitle(String title) {
-		Book book = new Book();
 		try {
 			TypedQuery<Book> bookQuery = entityManager.createQuery(
 					"Select book from Book book where book.title=:title and book.deleted is false", Book.class);
 			bookQuery.setParameter("title", title);
-			book = bookQuery.getSingleResult();
-			return book;
+			return bookQuery.getSingleResult();
 		} catch (Exception e) {
-			return book;
+			return new Book();
 		}
 	}
 
 	public Book getBookByIsbn(Long isbn) {
-		Book book = new Book();
 		try {
 			TypedQuery<Book> bookQuery = entityManager.createQuery(
 					"Select book from Book book where book.isbn=:isbn and  book.deleted is false", Book.class);
 			bookQuery.setParameter("isbn", isbn);
-			book = bookQuery.getSingleResult();
-			return book;
+			return bookQuery.getSingleResult();
 		} catch (Exception e) {
-			return book;
+			return new Book();
 		}
 	}
 
-	public boolean addBook(Book book) {
-		try {
-			book.setDeleted(Boolean.FALSE);
-			entityManager.persist(book);
-			return true;
-		} catch (Exception e) {
-			return false;
-		}
-	}
-
-	public boolean editBook(Book book) {
+	public boolean saveBook(Book book) {
 		try {
 			book.setDeleted(Boolean.FALSE);
 			entityManager.merge(book);

@@ -69,7 +69,7 @@ public class AuthorController {
 	}
 
 	@PostMapping("/author")
-	public ModelAndView addAuthor(@ModelAttribute @Valid AuthorDto authorDto, HttpServletRequest request,
+	public ModelAndView saveAuthor(@ModelAttribute @Valid AuthorDto authorDto, HttpServletRequest request,
 			RedirectAttributes redirectAttrs) {
 		User user = (User) request.getSession().getAttribute("user");
 		authorDto.setUser(user);
