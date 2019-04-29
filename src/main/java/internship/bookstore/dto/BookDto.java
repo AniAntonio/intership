@@ -2,7 +2,6 @@ package internship.bookstore.dto;
 
 import java.util.List;
 
-import internship.bookstore.entities.Author;
 import internship.bookstore.entities.User;
 
 public class BookDto {
@@ -20,8 +19,6 @@ public class BookDto {
 	private List<Long> idAuthors;
 
 	private User user;
-
-	private List<Author> authors;
 
 	private String searchParam;
 
@@ -83,14 +80,6 @@ public class BookDto {
 		this.user = user;
 	}
 
-	public List<Author> getAuthors() {
-		return authors;
-	}
-
-	public void setAuthors(List<Author> authors) {
-		this.authors = authors;
-	}
-
 	public String getSearchParam() {
 		return searchParam;
 	}
@@ -106,5 +95,4 @@ public class BookDto {
 	public void setRating(Double rating) {
 		this.rating = rating;
 	}
-
 }

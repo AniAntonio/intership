@@ -1,5 +1,8 @@
 package internship.bookstore.converters;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import internship.bookstore.dto.AuthorDto;
 import internship.bookstore.entities.Author;
 
@@ -28,4 +31,11 @@ public class AuthorConverter {
 		return authorDto;
 	}
 
+	public static List<AuthorDto> toAuthorDtoList(List<Author> authors) {
+		List<AuthorDto> authorsDto = new ArrayList<>();
+		for (Author author : authors) {
+			authorsDto.add(toAuthorDto(author));
+		}
+		return authorsDto;
+	}
 }

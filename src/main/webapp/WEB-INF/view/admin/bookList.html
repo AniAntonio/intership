@@ -16,7 +16,8 @@
 	<div th:replace="templates/header :: headertemplate"></div>
 	<div th:switch="${books}">
 		<h2>
-			All Books In Our BookStore <a th:if="${session.user.role.id==1}"
+			All Books In Our BookStore <a
+				th:if="${session.user.role.rolename=='ADMIN'}"
 				th:href="@{/book/add}" class="btn btn-success">Add Book</a>
 		</h2>
 		<form action="#" th:action="@{/admin/bookList}" th:object="${utilDto}"
@@ -73,7 +74,7 @@
 						<td th:if="${session.user.role.id==1}"><a
 							th:href="@{/book/edit/{isbn}(isbn=${book.isbn})}"
 							class="btn btn-default">Edit</a></td>
-						<td th:if="${session.user.role.id==1}"><a
+						<td th:if="${session.user.role.rolename=='ADMIN'}"><a
 							class="btn btn-danger" data-toggle="modal"
 							data-target="#modal-warning"
 							th:attr="data-target='#modal-warning'+${book.isbn}">Delete</a>

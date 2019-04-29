@@ -37,8 +37,7 @@ public class UserFilter implements Filter {
 		if ((loggedIn || allowedPath)) {
 			if (user == null) {
 				chain.doFilter(request, response);
-			} else if (user.getRole().getRolename().equals("USER")
-					&& (path.contains("add") || path.contains("delete"))) {
+			} else if (user.getRole().getRolename().equals("USER") && path.contains("add")) {
 				session.invalidate();
 				response.sendRedirect(errorURI);
 			} else {

@@ -6,7 +6,7 @@ import internship.bookstore.dto.BookDto;
 import internship.bookstore.dto.BookRequestDto;
 
 public interface BookService {
-	List<BookDto> getAllBooksBySearch(BookRequestDto request);
+	List<BookDto> getAllBooks(BookRequestDto request);
 
 	int countBooks(BookRequestDto request);
 

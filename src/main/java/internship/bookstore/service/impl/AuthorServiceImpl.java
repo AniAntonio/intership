@@ -10,9 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 import internship.bookstore.converters.AuthorConverter;
 import internship.bookstore.dto.AuthorDto;
 import internship.bookstore.entities.Author;
+import internship.bookstore.exceptions.CustomException;
 import internship.bookstore.repository.AuthorRepository;
 import internship.bookstore.service.AuthorService;
-import internship.bookstore.service.CustomException;
 
 @Service
 @Transactional

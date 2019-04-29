@@ -8,11 +8,11 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import internship.bookstore.dto.BookDto;
 import internship.bookstore.dto.BookRequestDto;
 import internship.bookstore.entities.User;
@@ -38,7 +38,7 @@ public class BookController {
 	@GetMapping(value = "/admin/bookList")
 	public ModelAndView goToBookList(BookRequestDto request) {
 		ModelAndView mv = new ModelAndView(BOOK_LIST_URL);
-		List<BookDto> books = bookService.getAllBooksBySearch(request);
+		List<BookDto> books = bookService.getAllBooks(request);
 		int totalPages = (bookService.countBooks(request) + 4) / 5;
 		mv.addObject(AUTHORS, authorService.getAllAuthors());
 		mv.addObject("totalpages", totalPages);
@@ -75,7 +75,8 @@ public class BookController {
 	}
 
 	@PostMapping("/book")
-	public ModelAndView saveBook(@Valid BookDto bookDto, HttpServletRequest request, RedirectAttributes redirectAttrs) {
+	public ModelAndView saveBook(@ModelAttribute @Valid BookDto bookDto, HttpServletRequest request,
+			RedirectAttributes redirectAttrs) {
 		User user = (User) request.getSession().getAttribute("user");
 		bookDto.setUser(user);
 		ModelAndView mv = new ModelAndView(ADD_BOOK_URL);

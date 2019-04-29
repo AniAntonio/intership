@@ -18,7 +18,7 @@ public class BookRepositoryImpl implements BookRepository {
 	@PersistenceContext
 	EntityManager entityManager;
 
-	public List<Book> getAllBookBySearch(String searchedTitle, Author author, int pageNumber) {
+	public List<Book> getAllBooks(String searchedTitle, Author author, int pageNumber) {
 		List<Book> books = new ArrayList<>();
 		try {
 			StringBuilder booksQuery = new StringBuilder(
@@ -26,7 +26,7 @@ public class BookRepositoryImpl implements BookRepository {
 			if (searchedTitle != null) {
 				booksQuery.append("  AND (LOWER(book.title) LIKE LOWER(CONCAT('%',:searchedTitle, '%')))");
 			}
-			if (author != null) {
+			if (author.getId() != null) {
 				booksQuery.append(" AND (:author IN authors)");
 			}
 			booksQuery.append(" order by rating desc");
@@ -34,7 +34,7 @@ public class BookRepositoryImpl implements BookRepository {
 			if (searchedTitle != null) {
 				booksTypedQuery.setParameter("searchedTitle", searchedTitle);
 			}
-			if (author != null) {
+			if (author.getId() != null) {
 				booksTypedQuery.setParameter("author", author);
 			}
 			if (pageNumber == 0) {

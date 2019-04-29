@@ -1,4 +1,4 @@
-package internship.bookstore.service;
+package internship.bookstore.exceptions;
 
 public class CustomException extends RuntimeException {
 

@@ -34,7 +34,7 @@
 			<div class="form-group">
 				<label class="control-label col-sm-4" for="description">Description</label>
 				<div class="col-sm-8">
-					<textarea rows="3" class="form-control" th:field="*{description}"
+					<textarea rows="5" class="form-control" th:field="*{description}"
 						id="description" placeholder="description must be 3-1000 letters"
 						th:required="required" th:minlength="3" th:maxlength="1000"></textarea>
 					<span th:if="${#fields.hasErrors('description')}"

@@ -10,11 +10,11 @@ import internship.bookstore.dto.BookDto;
 import internship.bookstore.dto.BookRequestDto;
 import internship.bookstore.entities.Author;
 import internship.bookstore.entities.Book;
+import internship.bookstore.exceptions.CustomException;
 import internship.bookstore.repository.AuthorRepository;
 import internship.bookstore.repository.BookRepository;
 import internship.bookstore.repository.BookReviewRepository;
 import internship.bookstore.service.BookService;
-import internship.bookstore.service.CustomException;
 
 @Service
 @Transactional
@@ -30,19 +30,11 @@ public class BookServiceImpl implements BookService {
 	BookReviewRepository bookReviewRepository;
 
 	@Override
-	public List<BookDto> getAllBooksBySearch(BookRequestDto request) {
+	public List<BookDto> getAllBooks(BookRequestDto request) {
 		List<BookDto> books = new ArrayList<>();
-		if (request.getIdAuthor() != 0) {
-			Author author = authorRepository.getAuthorById((long) request.getIdAuthor());
-			for (Book book : bookRepository.getAllBookBySearch(request.getSearchedTitle(), author,
-					request.getPageNumber())) {
-				books.add(BookConverter.toBookDto(book));
-			}
-		} else {
-			for (Book book : bookRepository.getAllBookBySearch(request.getSearchedTitle(), null,
-					request.getPageNumber())) {
-				books.add(BookConverter.toBookDto(book));
-			}
+		Author author = authorRepository.getAuthorById((long) request.getIdAuthor());
+		for (Book book : bookRepository.getAllBooks(request.getSearchedTitle(), author, request.getPageNumber())) {
+			books.add(BookConverter.toBookDto(book));
 		}
 		return books;
 	}
@@ -57,8 +49,9 @@ public class BookServiceImpl implements BookService {
 		Long bookId = bookRepository.getBookByTitle(bookDto.getTitle()).getIsbn();
 		if (bookId == null || bookId.equals(bookDto.getIsbn())) {
 			List<Author> authors = authorRepository.getAuthorsByIdList(bookDto.getIdAuthors());
-			bookDto.setAuthors(authors);
-			return bookRepository.saveBook(BookConverter.toBookEntity(bookDto));
+			Book book = BookConverter.toBookEntity(bookDto);
+			book.setAuthors(authors);
+			return bookRepository.saveBook(book);
 		} else {
 			return false;
 		}

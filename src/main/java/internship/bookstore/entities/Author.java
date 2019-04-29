@@ -33,7 +33,7 @@ public class Author implements Serializable {
 	@Column(name = "dateofbirth")
 	private String dateofbirth;
 
-	@Column(name = "valid")
+	@Column(name = "deleted")
 	private boolean deleted;
 
 	@ManyToOne(fetch = FetchType.LAZY)

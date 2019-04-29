@@ -35,7 +35,7 @@ public class Book implements Serializable {
 	@Column(name = "publishingdate")
 	private String publishingdate;
 
-	@Column(name = "valid")
+	@Column(name = "deleted")
 	private boolean deleted;
 
 	@ManyToOne(fetch = FetchType.LAZY)

@@ -40,15 +40,15 @@ public class User implements Serializable {
 	private String lastname;
 
 	@Column(name = "email", length = 50)
-	@Email(message = "Enter a valid email!")
 	@NotNull
+	@Email(message = "Please enter a valid email! example@gmail.com")
 	private String email;
 
 	@ManyToOne
 	@JoinColumn(name = "idrole")
 	private Role role;
 
-	@Column(name = "valid")
+	@Column(name = "deleted")
 	private boolean deleted;
 
 	public Long getId() {
